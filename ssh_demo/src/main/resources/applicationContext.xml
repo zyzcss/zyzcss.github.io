@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:jee="http://www.springframework.org/schema/jee"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+    <context:property-placeholder location="classpath:jdbc.properties" />
+    <bean id="userAction" class="dps.action.UserAction" scope="prototype">
+        <property name="webService" ref="webService"/>
+    </bean>
+    <bean id="webService" class="dps.service.WebService" scope="prototype">
+        <property name="webDao" ref="webDao"/>
+    </bean>
+    <bean id="webDao" class="dps.dao.WebDao" scope="prototype">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" scope="prototype">
+    <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+    </bean>-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!-- 注入连接池，包含了数据库用户名，密码等等信息 -->
+        <property name="dataSource" ref="myDataSource"/>
+
+        <!-- 配置Hibernate的其他的属性 -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.connection.autocommit">false</prop>
+                <!-- 开机自动生成表 -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <!--<property name="mappingResources">-->
+            <!--<list>-->
+                <!--<value>User.hbm.xml</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    </bean>
+    <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 每300秒检查所有连接池中的空闲连接 -->
+        <property name="idleConnectionTestPeriod" value="300"></property>
+        <!-- 最大空闲时间,900秒内未使用则连接被丢弃。若为0则永不丢弃 -->
+        <property name="maxIdleTime" value="900"></property>
+        <!-- 最大连接数 -->
+        <property name="maxPoolSize" value="3"></property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+</beans>

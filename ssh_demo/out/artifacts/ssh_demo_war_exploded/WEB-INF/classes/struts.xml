@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>  
+    <constant name="struts.action.extension" value="do,action"></constant>
+    <package name="dps.action" extends="json-default">
+        <action name="login" class="dps.action.UserAction" method="getJsonList">
+            <result type="json">
+                <param name="root">jsonData</param>
+            </result>
+        </action>
+        <action name="download" class="dps.action.FileDownloadAction">
+            <param name="inputPath">\downloadFiles\WebSite1.rar</param>
+            <result name="success" type="stream">
+                <param name="contentType">application/rar</param>
+                <param name="inputName">targetFile</param>
+                <param name="contentDisposition">filename="WebSite1.rar"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+    </package>
+</struts>

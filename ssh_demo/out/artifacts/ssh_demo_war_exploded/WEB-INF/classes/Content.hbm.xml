@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="dps.bean.Content" table="content" >
+        <id name="id">
+            <generator class="assigned"/>
+        </id>
+        <property name="title" column="title"/>
+        <property name="creator" column="creator"/>
+        <!--<many-to-one name="creator" column="creator" class="dps.bean.User"></many-to-one>-->
+        <property name="creatDate" column="creatDate"/>
+        <property name="content" column="content"/>
+        <property name="star" column="star"/>
+        <set name="files">
+            <key column="fileId"/>
+            <one-to-many class="dps.bean.Files"/>
+        </set>
+    </class>
+</hibernate-mapping>

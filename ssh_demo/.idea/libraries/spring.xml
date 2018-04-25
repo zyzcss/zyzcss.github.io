@@ -1,0 +1,29 @@
+<component name="libraryTable">
+  <library name="spring">
+    <CLASSES>
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-aspects-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-aop-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-beans-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-context-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-context-indexer-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-context-support-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-core-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-expression-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-instrument-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-jcl-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-jdbc-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-jms-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-messaging-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-orm-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-oxm-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-test-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-tx-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-web-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-webflux-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-webmvc-5.0.5.RELEASE.jar!/" />
+      <root url="jar://D:/360极速浏览器下载/spring-framework-5.0.5.RELEASE/libs/spring-websocket-5.0.5.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

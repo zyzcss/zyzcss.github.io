@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="ssh_demo:war exploded">
+    <output-path>$PROJECT_DIR$/../ssh_demo/out/artifacts/ssh_demo_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="ssh_demo/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="ssh_demo" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="org.thymeleaf:thymeleaf:Latest" />
+          <element id="file-copy" path="F:/jspCom/web/WEB-INF/lib/mysql-connector-java-5.1.36.jar" />
+          <element id="file-copy" path="D:/360极速浏览器下载/apache-log4j-2.9.1-bin/log4j-core-2.9.1.jar" />
+          <element id="library" level="project" name="libs" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

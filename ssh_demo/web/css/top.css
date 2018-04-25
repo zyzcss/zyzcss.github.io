@@ -1,0 +1,169 @@
+body{
+    font-size: 15px;
+    padding:0px;
+    font-family: 黑体;
+    background-color: #f8f8f8;
+    overflow: scroll;
+    margin: 0 auto;
+}
+a:hover{
+    text-decoration: none;
+}
+#header{
+    background: #fff;
+    height: 50px;
+    min-width: 500px;
+}
+#header .header-logo{
+    display: block;
+    margin-top: 6px;
+    float: left;
+}
+#header strong{
+    color: #000;
+    font-size: 14px;
+    margin: 0;
+    line-height: 50px;
+}
+#header .header-logo img{
+    display: inline-block;
+    float: left;
+    padding: 0 0 3px 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+#header .header-search{
+    padding: 12px 0 0 0;
+    margin-left: 35px;
+    float: left;
+}
+#header .header-search-i{
+    width: 250px;
+    height: 24px;
+    padding: 0 0 0 0;
+    margin:0;
+    border:1px solid #ccc;
+    border-right: 0;
+    background-color: #fff;
+    color: #666;
+    font-size: 14px;
+    text-indent: 5px;
+}
+#header .header-search-b{
+    margin-left: -8px;
+    padding: 0;
+    width: 50px;
+    height: 24px;
+    background-color: #333;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+}
+#header .header-search-b:hover{
+    background-color: #666;
+}
+#header .header-right{
+    padding:0;
+    float: right;
+    height: 100%;
+    line-height: 50px;
+    border: 0;
+    color: #666;
+}
+#header .header-right a{
+    margin-left:1px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+}
+#header .header-right a:hover{
+    cursor: pointer;
+    color: #000;
+}
+
+#header #header-user img{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+#header #header-user .header-user-info{
+    box-shadow: 0 5px 5px rgba(0,0,0,0.5);
+    position: absolute;
+    margin-top: -5px;
+    margin-left: -110px;
+    width: 180px;
+    height: 100px;
+    background: #fff;
+    display: none;
+}
+#header #header-user .header-user-main{
+    height: 50px;
+    width: 100%;
+}
+#header #header-user .header-user-bottom{
+    width: 100%;
+    height: 30px;
+    margin:20px 1px 0 0 ;
+    background: #e4e4e4;
+    font-size: 14px;
+}
+#header #header-user .header-user-bottom p{
+    position: absolute;
+    margin: -10px 0 0 65px;
+}
+#header #header-user .header-user-main{
+    position: absolute;
+    margin:-5px 0 0 5px;
+}
+#header #header-user #username{
+    font-weight: 700;
+}
+#header #header-user .user-exit{
+    float: right;
+    margin: 18px 10px 0 0 ;
+}
+#header #header-user a:hover{
+    color: #fa5555;
+}
+.banner {
+    height: 150px;
+    cursor: pointer;
+    margin:auto;
+}
+
+#head-tabs{
+    height: 51px;
+    min-width: 500px;
+    color: #fff;
+    background-color: rgba(255,255,255,1);
+}
+#head-tabs a{
+    color: #222;
+    margin: 5px;
+}
+#head-tabs .active a{
+    background-color: #fa5555;
+    color: #fff;
+}
+#head-tabs  a:hover{
+    background-color: rgba(250, 85, 85, 0.23);
+    color: #fff;
+}
+#mynav{
+    z-index: 55;
+    background: #fff;
+    padding: 0;
+    margin-left: -15px;
+}
+.mynav{
+    position:fixed;
+    top:50px;
+    width:100%;
+    background-color:rgba(240,240,240,1);
+    margin: 0;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+}
+.form-horizontal{
+    margin-top: 20px;
+}
