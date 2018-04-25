@@ -1,1 +1,119 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>猫乎</title>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	<script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+	<script src="js/jquery-date-CN.js"></script>
+	<script src="js/jquery.cookie.js"></script>
+	<link rel="stylesheet" type="text/css" href="js/jquery-ui-1.12.1.custom/jquery-ui.css">
+	<link rel="shortcut icon" type="image/x-icon" href="img/cat.ico">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<script type="text/javascript" src="js/index.js"></script>
+
+</head>
+<body>
+	<script type="text/javascript" src="js/ball_animate.js"></script>
+	<script type="text/javascript">
+		ball_animate();
+	</script>
+	<div id='head-top'>
+		<div id='header'>
+			<div class='header_logo'>
+				<a href="index.html"><img src="img/cat.ico"><h1>猫乎</h1></a>
+			</div>
+			<div class='header_search'>
+				<input type="text" name="search" class="header_search_i">
+				<input type="button" class="header_search_b" value="搜索">
+			</div>
+			<div class="header_right">
+				<a id="header_reg">注册</a>
+				<a id="header_member"></a>
+				<div>|</div>
+				<a id="header_login">登录</a>
+				<a id="header_logout">注销</a>	
+			</div>
+		</div>
+	</div>
+	<div class="banner">
+			<a href="index.html"></a>
+	</div>	
+	<div class="bannerTooltip">
+		请随意撸猫
+	</div>
+	<div class="bannerS">		
+	</div>
+	<div id='head-tabs'>
+		<div id="tabs">
+			<ul>
+				<li class="defaultTab"><a href="index.html?catlog=0">首页</a></li>
+				<li><a href="index.html?catlog=1">HTML</a></li>
+				<li><a href="index.html?catlog=2">CSS</a></li>
+				<li><a href="index.html?catlog=3">JQUERY</a></li>
+				<li><a href="index.html?catlog=4">JAVA</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+		<div class="slider" style="overflow: hidden;">
+			<div>
+				<a href="#" target="_blank"><img src="./img/sliderImg/1.jpg" style="display: block;"></a>	
+				<div class="imageRight"></div>
+			</div>	
+			<span></span>
+			<ul>
+				<li ti="1" ti2='[猫猫猫]' class="defaultSlider"></li>
+				<li ti="2" ti2='[猫猫2]'></li>
+				<li ti="3" ti2='[猫猫3]'></li>
+				<li ti="4" ti2='[猫猫4]'></li>
+			</ul>
+			
+		</div>
+		<div class="slider-right">
+				<ul>
+					<li><a href="#"><span>小猫咪1号</span><img src="img/sliderImg/1.jpg">
+					<div></div><p></p></a></li>
+					<li><a href="#"><span>小猫咪2号</span><img src="img/sliderImg/1.jpg">
+					<div></div><p></p></a></li>
+					<li><a href="#"><span>小猫咪3号</span><img src="img/sliderImg/1.jpg">
+					<div></div><p></p></a></li>
+					<li><a href="#"><span>小猫咪4号</span><img src="img/sliderImg/1.jpg">
+					<div></div><p></p></a></li>
+					<li><a href="#"><span>小猫咪5号</span><img src="img/sliderImg/1.jpg">
+					<div></div><p></p></a></li>
+					<li><a href="#"><span>小猫咪6号</span><img src="img/sliderImg/1.jpg">
+					<div></div><p></p></a></li>
+				</ul>
+			</div>
+		<div ></div>
+	</div>
+	<form id="reg" title="注册">
+		<div class="form-div">
+			<label for="loginName" class="block-label">用户名:</label>
+			<input type="text" name="loginName" id="loginName" title="用户名的长度应为4~10位"></input>
+			<span class="star">*</span>
+		</div>
+		<div class="form-div">
+			<label for="password" class="block-label">密 &nbsp;&nbsp;&nbsp;码:</label>
+			<input type="password" name="password" id="password" title="密码长度应为6~16位，可以是字母数字任意组合"></input>
+			<span class="star">*</span>
+		</div>
+		<div class="form-div">
+			<label for="email" class="block-label">邮 &nbsp;&nbsp;&nbsp;箱:</label>
+			<input type="text" name="email" id="email" title="请确认输入的是正确的邮箱地址"></input>
+			<span class="star">*</span>
+		</div>
+		<div class="form-div">
+			<label for="gender" class="block-label">性 &nbsp;&nbsp;&nbsp;别:</label>
+			<input type="radio" name="gender" value="male" id="male"  checked="checked"><label for="male">男</label></input><input type="radio" name="gender" value="female" id="female"><label for="female"  checked="checked">女</label></input>
+		</div>
+		<div class="errMsg"></div>
+	</form>
+	<footer id="footer">
+		footer
+	</footer>
+</body>
+</html>
