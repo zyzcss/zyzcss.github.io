@@ -3,7 +3,7 @@
     {
         var isScroll=false;
         $(window).scroll(function(){
-            var topScroll =$('body').scrollTop();//滚动的距离,距离顶部的距离
+            var topScroll =document.documentElement.scrollTop;;//滚动的距离,距离顶部的距离
             var nav  = $('#mynav');//获取到导航栏id
             var headtab=$('#head-tabs');
             if(topScroll >=150){  //当滚动距离大于px时执行下面的东西
