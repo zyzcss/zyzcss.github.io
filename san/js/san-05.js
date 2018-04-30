@@ -1,6 +1,4 @@
-//导入css
-import '../../css/input.css';
-//checkbox组中的父选项
+
 let sonCheckboxGroup = san.defineComponent({
     template: `
     <template>
@@ -175,9 +173,11 @@ let parent=san.defineComponent({
 	    type="email"
 	    errorMsg="请输入正确的邮箱"
 	    readonly="false"></san-input>
+		只读
 		<san-input
 	    value="hello"
 	    readonly="true"></san-input>
+	    禁用
 		<san-input
 	    value="san"
 	    disabled="true"></san-input>
