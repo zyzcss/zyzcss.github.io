@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.card{
+			position: relative;
+			width: 150px;
+			height: 200px;
+		}
+		.card:before{
+			content: '';
+			background: #f55;
+			width: 150px;
+			height: 200px;
+			left: 0;
+			top: 0;
+			z-index: 2;
+			position: absolute;
+			transition: all 0.5s;
+			backface-visibility:hidden;
+		}
+		.card:after{
+			content: '';
+			left: 0;
+			top: 0;
+			position: absolute;
+			background: #666;
+			width: 150px;
+			height: 200px;
+			z-index: 1;
+			transition: all 0.5s;
+			transform: rotateY(0deg);
+		}
+		.card:hover:after{
+			transform: rotateY(180deg);
+		}
+		.card:hover:before{
+			transform: rotateY(180deg);
+		}
+	</style>
+</head>
+<body>
+	<div class="card">
+	</div>
+</body>
+</html>
