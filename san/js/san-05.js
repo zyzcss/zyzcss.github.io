@@ -40,7 +40,7 @@ let sanInput=san.defineComponent({
 		readonly="{{readonly?readonly:'false'}}"
 		disabled="{{disabled?disabled:'false'}}"
 		on-input="validate(type,value)"
-		class="{{myclass?myclass:''}}">
+		class="{=myclass=}">
 		<span s-if="{{isSuccess==false}}">{{errorMsg}}</span>
 	</template>`,
 	initData:function(){
@@ -62,9 +62,11 @@ let sanInput=san.defineComponent({
 					patt=/^[0-9]*[1-9][0-9]*$/;
 					break;
 			}
+			console.log(patt);
 			if(patt){
 				//验证 改变class并上传到父组件
 				let isSuccess=patt.test(value);
+				console.log(this.data.get("myclass"));
 				this.data.set("isSuccess",isSuccess);
 				this.dispatch("UI:validate",isSuccess);
 				if(isSuccess){
