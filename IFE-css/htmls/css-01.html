@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>css-01</title>
+	<link rel="stylesheet" type="text/css" href="../css/css-01.css">
+</head>
+<body>
+	<div id="box">前端学院<div class="memu"></div></div>
+	<button id="toglleButton">切换样式</button>
+	<script type="text/javascript">
+		let toglleButton=document.getElementById("toglleButton");
+		let memu=document.getElementsByClassName("memu")[0];
+		let box=document.getElementById("box");
+		toglleButton.addEventListener("click",function(){
+			memu.classList.toggle("toggle");
+			box.classList.toggle("fontColor");
+		});
+	</script>
+</body>
+</html>
