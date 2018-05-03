@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		/*设置全屏*/
+		html,body{
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+		/*容器全屏*/
+		.container{
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		/*播放列表容器*/
+		.imgs{
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			background: url(../imgs/1.jpg) no-repeat;
+ 			background-size:100% 100%;
+		}
+		/*播放列表的照片 默认不显示 显示背景图片*/
+		.imgs img{
+			position: absolute;
+			left: 0;
+			top: 0;
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			height: 100%;
+			display: none;
+		}
+		/*下面的缩略图*/
+		.tags{
+			position: absolute;
+			z-index: 3;
+			left: 20%;
+			top: 80%;
+			width: 60%;
+			height:15%;
+		}
+		/*设置缩略图大小和手型*/
+		.tags img{
+			cursor: pointer;
+			width: 19%;
+			margin: 0 2px;
+			height:100%;
+		}
+
+		/*1-5五种切换特效*/
+		.imgs>.run1{
+			display: block;
+			z-index: 2;
+			animation: imgRun1 0.5s ease-out;
+		}
+		@-webkit-keyframes imgRun1{
+			0%{
+				left: -300px
+			}
+			100%{
+				left: 0px;
+			}
+		}
+		.imgs>.run2{
+			display: block;
+			z-index: 2;
+			animation: imgRun2 0.5s ease-out;
+		}
+		@-webkit-keyframes imgRun2{
+			0%{
+				top: 350px;
+			}
+			100%{
+				top: 0px;
+			}
+		}
+		.imgs>.run3{
+			display: block;
+			z-index: 2;
+			animation: imgRun3 0.5s ease-in;
+		}
+		@-webkit-keyframes imgRun3{
+			0%{
+				transform: scale(0.1);
+			}
+			100%{
+				transform: scale(1);
+			}
+		}
+		.imgs>.run4{
+			display: block;
+			z-index: 2;
+			animation: imgRun4 0.5s ease-out;
+		}
+		@-webkit-keyframes imgRun4{
+			0%{
+				transform: scale(2);
+			}
+			100%{
+				transform: scale(1);
+			}
+		}
+		.imgs>.run5{
+			display: block;
+			z-index: 2;
+			animation: imgRun5 0.5s ease-in-out;
+		}
+		@-webkit-keyframes imgRun5{
+			0%{
+				transform: scale(0.1) rotate(-360deg);
+			}
+			100%{
+				transform: scale(1) rotate(0deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<!-- 
+	容器内有大图和缩略图两部分
+	 -->
+	<div class="container">
+		<div class="imgs">
+			<img src="../imgs/1.jpg">
+			<img src="../imgs/2.jpg">
+			<img src="../imgs/3.jpg">
+			<img src="../imgs/4.jpg">
+			<img src="../imgs/5.jpg">
+		</div>
+		<div class="tags">
+			<img src="../imgs/1.jpg">
+			<img src="../imgs/2.jpg">
+			<img src="../imgs/3.jpg">
+			<img src="../imgs/4.jpg">
+			<img src="../imgs/5.jpg">
+		</div>
+	</div>
+	<script type="text/javascript">
+		let tags=document.getElementsByClassName("tags")[0];
+		let imgs=document.getElementsByClassName("imgs")[0];
+		let img;
+		/*设置flag防止用户频繁点击*/
+		let flag=false;
+		/*监听点击事件*/
+		for(let i=0;i<5;i++){
+			tags.getElementsByTagName("img")[i].addEventListener("click",function(){
+				/*当上次动画结束后*/
+				if(!flag){
+					img=imgs.getElementsByTagName("img")[i];
+					/*设置class*/
+					img.classList.add("run"+(i+1));	
+					/*0.5秒后移除class并且让背景图片变成该图*/
+					function del(){
+						img.classList.remove("run"+(i+1));
+						flag=false;
+						console.log(flag,i)
+						imgs.style.backgroundImage="url(../imgs/"+(i+1)+".jpg)";
+					}
+					setTimeout(del,500);
+					flag=true;
+				}
+			});
+		}
+	</script>
+</body>
+</html>
