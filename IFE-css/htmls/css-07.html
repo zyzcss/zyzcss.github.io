@@ -4,6 +4,7 @@
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="../css/animate.css">
 	<style type="text/css">
+		/*登录窗口容器*/
 		.login{
 			margin:50px auto;
 			width: 350px;
@@ -11,23 +12,50 @@
 			padding: 5px 20px;
 			box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.2);
 		}
+		/*内容*/
 		.content{
 			margin: 5px;
 		}
+		/*标题*/
 		.login>h1{
 			margin: 30px 0 30px 5px;
 		}
+		/*表单控件*/
 		.form-item{
 			margin: 0 0px 30px 0px;
 			position: relative;
 		}
+		/*表单标签*/
 		.form-label{
 			display: block;
 			position: absolute;
 			top: 0px;
+			width: 100%;
+			height: 100%;
 			color: #aaa;
+			pointer-events: none;
+		}
+		/*标签里的字*/
+		.form-label>span{
+			top: 0px;
+			position: absolute;
+			display: block;
 			transition: top 0.2s ease-out;
 		}
+		/*伪类 制造蓝色条动画*/
+		.form-label:after{	
+			content:'';
+			position: absolute;
+			width: 100%;
+			height: 3px;
+			bottom: 0;
+			border:none;
+			transition: transform 0.3s ease;
+			border-bottom: 3px solid #5CACEE;
+			transform-origin:left;
+			transform: scaleX(0);
+		}
+		/*输入表单*/
 		.form-input>input{
 			margin: 15px 0 0 0px;
 			border:none;
@@ -37,15 +65,23 @@
 			font-size: 1rem;
 			padding: 5px 0px;
 			box-sizing: border-box;
+			position: relative;
 		}
+		/*获得焦点时 下边框透明*/
 		.form-input>input:focus{	
 			border-bottom-color:transparent;		
-			box-shadow:0 3px 0px 0px #5CACEE;
 		}
-		.form-input>input:focus+.form-label{	
+		/*获得焦点时让蓝色条铺满 取消过渡*/
+		.form-input>input:focus+.form-label:after{	
+			transition: none 0.3s ease;
+			transform:scale(1);
+		}
+		/*获得焦点时让表单标签的字上移且变小*/
+		.form-input>input:focus+.form-label>span{	
 			top: -10px;
 			font-size: 12px;
 		}
+		/*按钮样式*/
 		.form-button>input{
 			border:none;
 			cursor: pointer;
@@ -58,10 +94,11 @@
 			font-size: 1rem;
 			color:white;
 		}
+		/*第三方动画 添加属性*/
 		.pulse{
-			animation-duration:1.5s;
+			animation-duration:1.4s;
 			animation-iteration-count:infinite;
-			-webkit-animation-duration:1.5s;
+			-webkit-animation-duration:1.4s;
 			-webkit-animation-iteration-count:infinite;
 		}
 	</style>
@@ -92,16 +129,22 @@
 	<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
+			/*获得输入框和提交按钮的控件*/
 			let inputs=$(".form-input>input");
 			let submit=$(".form-button");
 			let length=inputs.length;
+			/*设置flag判断是否所以输入框都有内容*/
 			let flag=-1;
 			for(let i=0;i<length;i++){
+				/*为所有输入框监听一个移除焦点事件*/
 				inputs.eq(i).on("blur",function(){
 					if(flag!=0)flag--;
 					if(this.value.trim()!=""){
 						flag<0?flag=0:flag=flag+1;
 					}
+					/*
+						如果所有输入框都有内容则添加动画 	不然判断是否有动画 有的话移除动画
+					*/
 					if(flag==length-1){
 						submit.addClass("pulse");
 					}else{
