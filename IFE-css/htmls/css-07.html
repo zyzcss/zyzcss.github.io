@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../css/animate.css">
+	<style type="text/css">
+		.login{
+			margin:50px auto;
+			width: 350px;
+			border:1px solid #ddd;
+			padding: 5px 20px;
+			box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.2);
+		}
+		.content{
+			margin: 5px;
+		}
+		.login>h1{
+			margin: 30px 0 30px 5px;
+		}
+		.form-item{
+			margin: 0 0px 30px 0px;
+			position: relative;
+		}
+		.form-label{
+			display: block;
+			position: absolute;
+			top: 0px;
+			color: #aaa;
+			transition: top 0.2s ease-out;
+		}
+		.form-input>input{
+			margin: 15px 0 0 0px;
+			border:none;
+			border-bottom: 1px solid #ccc ;
+			width: 100%;
+			outline: none;
+			font-size: 1rem;
+			padding: 5px 0px;
+			box-sizing: border-box;
+		}
+		.form-input>input:focus{	
+			border-bottom-color:transparent;		
+			box-shadow:0 3px 0px 0px #5CACEE;
+		}
+		.form-input>input:focus+.form-label{	
+			top: -10px;
+			font-size: 12px;
+		}
+		.form-button>input{
+			border:none;
+			cursor: pointer;
+			border-bottom: 1px solid #ccc;
+			width: 100%;
+			background:#5CACEE;
+			border-radius: 3px;
+			height: 2.2rem;
+			outline: none;
+			font-size: 1rem;
+			color:white;
+		}
+		.pulse{
+			animation-duration:1.5s;
+			animation-iteration-count:infinite;
+			-webkit-animation-duration:1.5s;
+			-webkit-animation-iteration-count:infinite;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="login">
+		<h1>Login</h1>
+		<form class="content">
+			<div class="form-item form-input">
+				<input type="email" name="email" id="email">
+				<label for="email" class="form-label">
+					<span>Email</span>
+				</label>
+				
+			</div>
+			<div class="form-item form-input">
+				<input type="password" name="password" id="password">
+				<label for="password" class="form-label">
+					<span>Password</span>
+				</label>
+			</div>
+			<div class="form-item form-button animated">
+				<input type="submit" name="login">
+			</div>
+		</form>			
+	</div>
+	<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			let inputs=$(".form-input>input");
+			let submit=$(".form-button");
+			let length=inputs.length;
+			let flag=-1;
+			for(let i=0;i<length;i++){
+				inputs.eq(i).on("blur",function(){
+					if(flag!=0)flag--;
+					if(this.value.trim()!=""){
+						flag<0?flag=0:flag=flag+1;
+					}
+					if(flag==length-1){
+						submit.addClass("pulse");
+					}else{
+						if(submit.hasClass("pulse")){
+							submit.removeClass("pulse");
+						}
+					}
+				})
+			}
+			
+		})
+	</script>
+</body>
+</html>
