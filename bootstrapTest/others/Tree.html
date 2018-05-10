@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		div{
+			margin: 10px;
+			flex-grow: 1;
+			border:1px solid #000;
+			display: flex;
+		}
+		.checked{
+			background: #666;
+		}
+		#box{
+			display: flex;
+			flex-direction: row;
+			border:1px solid #000;
+			width: 600px;
+			margin: 0 auto;
+			height: 100px;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="box">
+		
+	</div>
+	<button id="pre" style="position: absolute;margin:200px 10px;">前序</button>
+	<button id="mid" style="position: absolute;margin:200px 60px;">中序</button>
+	<button id="behind" style="position: absolute;margin:200px 100px;">后序</button>
+<script type="text/javascript">
+	(function setDiv(){
+		let parentDiv=document.getElementById('box');
+		createDiv(parentDiv,3);
+		function createDiv(parent,k){
+			if(k>0){
+				let div1=document.createElement("div");
+				//div1.setAttribute("class","item");
+				let div2=document.createElement("div");
+				//div2.setAttribute("class","item");
+				parent.appendChild(div1);
+				parent.appendChild(div2);
+				k--;
+				createDiv(div1,k);
+				createDiv(div2,k);
+			}
+		}
+	})();//生成二叉树
+	function runAnimate(divlist){//动画
+		let i=0
+		console.log(divlist.length)
+		let timer=setInterval(function(){
+			if(i>0)divlist[i-1].removeAttribute("class","checked");
+			if(i<divlist.length){
+				divlist[i].setAttribute("class","checked");
+				i++;
+			}else{
+				clearInterval(timer);
+			}
+
+		},1500);
+	}
+	//前序 中左右
+	function preTree(){
+		//原生的就是前序
+		let divlist=document.getElementsByTagName("div");
+		runAnimate(divlist);
+	}
+	//中序 左中右
+	function midTree(){
+		let Trees=[];
+		centerg(document.getElementsByTagName("div")[0]);
+		function centerg(node){
+		  if (node) {
+		    centerg(node.firstElementChild);
+		    Trees.push(node);
+		    centerg(node.lastElementChild)
+		  }
+		}
+		return Trees;
+	};
+	//后序 左右中
+	function behindTree(){
+		let Trees=[];
+		centerg(document.getElementsByTagName("div")[0]);
+		function centerg(node){
+		  if (node) {
+		    centerg(node.firstElementChild);
+		    centerg(node.lastElementChild);
+		    Trees.push(node);
+		  }
+		}
+		return Trees;
+	};
+	document.getElementById("pre").addEventListener("click",function(){
+		preTree();
+	});
+	document.getElementById("mid").addEventListener("click",function(){
+		runAnimate(midTree());
+	});
+	document.getElementById("behind").addEventListener("click",function(){
+		runAnimate(behindTree());
+	});
+</script>
+</body>
+</html>

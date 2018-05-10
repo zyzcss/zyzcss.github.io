@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+	    .photo-wrap{
+	    	perspective: 1500px;
+	    }
+	    .container{
+	    	position: relative;
+	    	margin: 0 auto;
+	    	width: 700px;
+	    	height: 180px;
+	    	transform-style: preserve-3d;
+	    	animation: rotate-frame 10s linear infinite;
+	    }
+	    @-webkit-keyframes rotate-frame{
+	    	0%{
+	    		transform: rotateY(360deg);
+	    	}
+	    	100%{
+	    		transform: rotateY(0deg);
+	    	}
+	    }
+	    img{
+	    	width: 128px;
+	    	height: 90px;
+	    	position: absolute;
+	    	top: 160px;
+          	left: 300px;
+          	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.9);
+          	transform: rotateY(0deg);
+	    }
+	    img:nth-child(1){
+	    	transform: rotateY(0deg) translateZ(180px);
+	    }
+	    img:nth-child(2){
+	    	transform: rotateY(60deg) translateZ(180px);
+	    }
+	    img:nth-child(3){
+	    	transform: rotateY(120deg) translateZ(180px);
+	    }
+	    img:nth-child(4){
+	    	transform: rotateY(180deg) translateZ(180px);
+	    }
+	    img:nth-child(5){
+	    	transform: rotateY(240deg) translateZ(180px);
+	    }
+	    img:nth-child(6){
+	    	transform: rotateY(300deg) translateZ(180px);
+	    }
+	</style>
+</head>
+<body>
+	<div class="photo-wrap">
+		<div class="container">
+		  <img src="01.jpg">
+		  <img src="01.jpg">
+		  <img src="01.jpg">
+		  <img src="01.jpg">
+		  <img src="01.jpg">
+		  <img src="01.jpg">
+		</div>
+	</div>
+</body>
+</html>

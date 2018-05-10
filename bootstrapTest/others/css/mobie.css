@@ -1,0 +1,87 @@
+.player-card>.player-controls>.player-controls-sound>.player-sound-volume{
+    transform: scaleX(1);
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-now{
+    transform: scaleX(1);
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-volume,
+.player-card>.player-controls>.player-controls-sound>.player-sound-now,
+.player-card>.player-controls>.player-controls-sound>.player-sound-click{
+    width:calc(100vw - 115px);
+}
+@media screen and (max-width: 480px) {
+    #player{
+        height: 100%;
+        width: 100%;
+    }
+    .player-card>.player-time>.player-progress{
+        width: calc(100vw - 50px);
+    } 
+    #player-search{
+        height: 100%;
+        width: 100%;
+    }
+}
+@media screen and (min-height:600px) and (max-height:690px) {
+    .player-card>div{
+        margin-top: 3rem;
+    }
+    .player-card>.player-controls {
+        margin-top: 6rem;
+    }
+    .player-card>.player-info>span {
+        margin: 0.5rem;
+    }
+    .player-card>.player-controls>.player-controls-sound{
+        top:-4.5rem;
+    }
+}
+@media screen and (min-height:690px) and (max-height:736px) {
+    .player-card>div{
+        margin-top: 3.5rem;
+    }
+    .player-card>.player-controls {
+        margin-top: 7rem;
+    }
+    .player-card>.player-info>span {
+        margin: 1rem;
+    }
+    .player-card>.player-controls>.player-controls-sound{
+        top:-5rem;
+    }
+}
+@media screen and (min-height:737px){
+    .player-card>div{
+        margin-top: 5rem;
+    }
+    .player-card>.player-controls {
+        margin-top: 7rem;
+    }
+    .player-card>.player-info>span {
+        margin: 1.5rem;
+    }
+    .player-card>.player-controls>.player-controls-sound{
+        top:-5.5rem;
+    }
+}
+@media (min-width:0px){
+    html{font-size:12px;}
+}
+@media (min-width: 320px){
+    html{font-size:12px;}
+}
+@media (min-width: 340px){
+    html{font-size:13px;}
+}
+@media (min-width: 360px){
+    html{font-size:14px;}
+}
+@media (min-width: 380px){
+    html{font-size:15px;}
+}
+@media (min-width: 400px){
+    html{font-size:15px;}
+}
+@media (min-width: 420px){
+    html{font-size:16px;}
+}

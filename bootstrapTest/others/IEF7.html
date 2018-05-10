@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<style type="text/css">
+		.tag{
+			width: 200px;
+			overflow: hidden;
+			background: #ddd;
+			border: 1px solid #666;
+			text-align: center;
+		}
+		.tag div{
+			padding: 3px;
+			margin-top: 15px;
+			height: 0px;
+			word-wrap: break-word;
+			transition: all 1s ease;
+		}
+		label{
+			cursor: pointer;
+			margin: 5px auto;
+			display: inline-block;
+			font-size: 1.5em;
+		}
+		input[type=radio]{
+			display: none;
+		}
+		input:checked + label + div{
+			height: 180px;
+			visibility: visible;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<div class="tag">
+			<input type="radio" id="tag1" name="tab">
+			<label for="tag1">asdasd</label>
+			<div>asdasdasdasdasdadasdasdasasdddddddddddddddddd
+			asdddddddddddddddddddddddddd</div>
+		</div>
+		<div class="tag">
+			<input type="radio" id="tag2" name="tab">
+			<label for="tag2">asdasd</label>
+			<div>asdasdasdasdasdadasdasdasasdddddddddddddddddd
+			asdddddddddddddddddddddddddd</div>
+		</div>
+		<div class="tag">
+			<input type="radio" id="tag3" name="tab">
+			<label for="tag3">asdasd</label>
+			<div>asdasdasdasdasdadasdasdasasdddddddddddddddddd
+			asdddddddddddddddddddddddddd</div>
+		</div>
+	</section>
+</body>
+</html>

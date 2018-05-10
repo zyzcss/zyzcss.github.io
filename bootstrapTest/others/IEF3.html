@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		ul{
+			list-style: none;
+			display: block;
+			height: 200px;
+		}
+		li{
+			float: left;
+			margin-left:5px;
+			cursor: pointer;
+			transition: all 1s;
+			bottom: 0;
+		}
+		li:hover{
+			/*transform: scale(2) rotate(360deg);*/
+		}
+		li div{
+			width: 20px;
+			background: #f55;
+		}
+	</style>
+</head>
+<body>
+	<input type="number" id="info" value="">
+	<button id="leftIn">左侧入</button>
+	<button id="leftOut">左侧出</button>
+	<button id="rightIn">右侧入</button>
+	<button id="sort">排序</button>
+	<ul id="numberlist"></ul>
+	<script type="text/javascript">
+		let num=document.getElementById("info");
+		let ul=document.getElementById("numberlist");
+		let list=[];
+		let lis;
+		document.getElementById("leftIn").addEventListener("click",function(){
+			if(num.value!=""){
+				//左侧入
+				let li=getLi(getDiv()); 
+				//如果没有则放第一个 不然插入到最前面
+				let firstLi=document.getElementsByTagName("li")[0];
+				firstLi?ul.insertBefore(li,firstLi):ul.appendChild(li);
+				list.unshift(parseInt(num.value));
+				num.value="";
+			}
+			
+		});
+		document.getElementById("rightIn").addEventListener("click",function(){
+			let li=getLi(getDiv()); 
+			ul.appendChild(li);
+			list.push(parseInt(num.value));
+			num.value="";
+		});
+		function getLi(div){
+			//返回一个生成好的li 带柱状图div
+			let li=document.createElement("li");
+			let txt = document.createTextNode(num.value); 
+			li.appendChild(txt);
+			li.appendChild(div)
+			li.style.marginTop=200-num.value+"px";
+			li.addEventListener("click",function(){
+				ul.removeChild(this);
+			})
+			return li;
+		}
+		function getDiv(){
+			//柱状图
+			let div=document.createElement("div");
+			div.style.height=num.value+"px";
+			return div
+		}
+		document.getElementById("leftOut").addEventListener("click",function(){
+			ul.removeChild(document.getElementsByTagName("li")[0]);
+		});
+		document.getElementById("sort").addEventListener("click",function(){
+			//排序时的所有li列表
+			lis=document.getElementsByTagName("li");
+			console.log(list);
+			//返回排序过的
+			console.log(myQuickSort(list));
+
+		});
+		function myQuickSort(list){
+			quickSort(list,0,list.length-1);
+			function quickSort(list,start,end){
+				let arr=[];
+				let intv= setInterval(function(){
+					//用定时器代替while 
+					if(start<end){
+						arr=sort(list,start,end,getMid(list,start,end));
+						setTimeout(function(){
+							quickSort(list,start,arr[0]-1);
+							start=arr[1]+1;
+						},1000)
+					}else{
+						clearInterval(intv);
+					}
+				},2000);
+
+			}
+			function getMid(list,start,end){
+				let mid=start+Math.round((end-start)/2);
+				if(list[mid]>list[end]){
+					swap(list,mid,end);
+				}
+				if(list[start]>list[end]){
+					swap(list,start,end);
+				}
+				if(list[mid]<list[start]){
+					swap(list,mid,start);
+				}
+				return list[mid];
+			}
+			function sort(list,start,end,pivotValue){
+				let small = start - 1;
+		        let cur = start;
+		        let big = end + 1;
+		        console.log(pivotValue,start,end)
+		        while (cur != big) {
+		            if (list[cur] < pivotValue) {
+		                swap(list, ++small, cur++);
+		            } else if (list[cur] > pivotValue) {
+		                swap(list, cur, --big);
+		            } else {
+		                cur++;
+		            }
+		        }
+		        let range = [];
+		        range[0] = small + 1;
+		        range[1] = big - 1;
+		        return range;
+			}
+			function swap(list,i,j){
+				let divi=lis[i].getElementsByTagName("div")[0];
+				let divj=lis[j].getElementsByTagName("div")[0]
+				let temp=list[i];
+				list[i]=list[j];
+				list[j]=temp;
+				//divi.style.height=list[i]+"px";	
+				lis[i].innerHTML=list[i]+'<div style=height:'+list[i]+'px;></div>';
+				lis[i].style.marginTop=200-list[i]+"px";
+				//divj.style.height=list[j]+"px";	
+				lis[j].innerHTML=list[j]+'<div style=height:'+list[j]+'px;></div>';
+				lis[j].style.marginTop=200-list[j]+"px";
+			}
+			return list;
+		}
+	</script>
+</body>
+</html>

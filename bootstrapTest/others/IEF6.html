@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.memu{
+			display: flex;
+			flex-direction: column;
+			background: #ddd;
+			visibility:hidden;
+			position: absolute;
+			border:1px solid #ddd;
+			box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+		}
+		.memu-p{
+			flex-grow:1;
+			height: 100%;
+			background: #fff;
+			margin: 1px 0 0 0; 
+			padding: 2px 3px;
+			cursor: pointer;
+		}
+		.memu-p:hover{
+			background: #77e;
+		}
+	</style>
+</head>
+<body>
+	<div id="parent" style="width: 1000px;height: 300px;background: #666">
+	</div>
+	<section class="memu" style="width: 150px">
+		<p class="memu-p">memu1</p>
+		<p class="memu-p">memu2</p>
+		<p class="memu-p">memu3</p>
+		<p class="memu-p">memu4</p>
+	</section>
+	<script type="text/javascript">
+		let memu=document.querySelector('.memu');
+		let memuWidth=parseInt(memu.style.width);
+		document.getElementById("parent").addEventListener("contextmenu",function(event){
+			memu.style.visibility ="visible";
+			let x=event.clientX;
+			let y=event.clientY;
+			if(x>(1000-memuWidth)){
+				x-=memuWidth;
+			}
+			if(y>190){
+				y-=110;
+			}
+			memu.style.left=x+"px";
+			memu.style.top=y+"px";
+			event.preventDefault();
+		});
+		memu.addEventListener("mousedown",function(event){
+			alert("你选择了"+event.target.innerHTML)
+		})
+		document.addEventListener("mousedown",function(){
+			memu.style.visibility ="hidden";
+		})
+	</script>
+</body>
+</html>

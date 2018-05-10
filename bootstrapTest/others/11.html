@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title></title>
+</head>
+<body>
+	<div style="width: 500px;height: 500px;margin: 0 auto"><canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;"></canvas>
+		<input type="text" id="myValue">
+		<button onclick="change()">更改</button>
+		<button id="save">保存</button>
+	</div>
+	<div style="position:relative;width: 300px;height: 20px;background: #558;margin: 40px auto;cursor: pointer;"  id="par">
+	<div id="dragPoint" style="top:-5px;position:absolute;cursor:pointer;width: 30px;height:30px;background: yellow;border-radius:30px;" ></div>
+	</div>
+	
+<script type="text/javascript">
+	var c=document.getElementById("myCanvas");
+	var ctx=c.getContext("2d");
+	var img=new Image();
+	
+	img.crossOrigin = "Anonymous"
+	function changeCanvas(val="你好",size="100",src="01.jpg"){
+
+		img.onload = function() {
+			ctx.fillStyle="#666";
+			ctx.font=size+"px Arial";
+			
+			ctx.drawImage(img,0,0,c.width,c.height);
+			ctx.fillText(val,0,100);		
+			console.log(c.toDataURL("image/png"));
+		} 	
+	}
+	changeCanvas();
+	function change(){
+		var c=document.getElementById("myCanvas");
+		let val=document.getElementById("myValue").value;
+		//alert(val);
+		changeCanvas(val);
+		//let image=document.createElement("Img");
+		//var img = new Image();
+		//img.src = ;
+		//console.log(img);
+		//document.body[0].appendChild(image);
+
+	}
+	document.getElementById("save").addEventListener("click",function(){
+		var c=document.getElementById("myCanvas");
+		img.onload=function(){
+			img.src=c.toDataURL("image/jpg");
+			img.onload=function(){
+				c.drawImage(img,0,0,c.width,c.height);
+			}
+		}
+	})
+	{
+		var drag=0;
+		let par=document.getElementById("par");
+		let point=document.getElementById("dragPoint");
+		par.addEventListener("click",function(e){
+			//point.style.left="0px"
+            point.style.left=e.offsetX+"px";
+		});
+	}
+</script>
+</body>
+</html>

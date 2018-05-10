@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.container{
+			display: grid;
+			grid-template-columns:100px 1fr 1fr;
+			grid-template-rows:150px 1fr 50px;
+			grid-template-areas: "header header header"
+								"nav main main"
+								"footer footer footer";
+			grid-column-gap:10px;
+			grid-row-gap:50px;
+			justify-content: start ;
+			height: 500px;
+			width: 80%;
+		}
+		.item{
+			background: #f55;
+			border:1px solid #666;
+		}
+		.header{
+			grid-area: header;
+			justify-self: center;
+			 align-self: center;
+		}
+		.nav{
+			grid-area: nav;
+			grid-column: 1 /2;
+			grid-row: 1 /3;
+		}
+		.main{
+			grid-area: main;
+		}
+		.footer{
+			grid-area: footer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="item header">adasd</div>
+		<div class="item nav"></div>
+		<div class="item main"></div>
+		<div class="item footer"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div id="box"></div>
+	<button>aa</button>
+	<button>aa</button>
+	<button>aa</button>
+	<script type="text/javascript">
+			//app.data.basicInfo.age = 20;
+	var b=document.getElementsByTagName('button');
+	for(let i=0;i<=b.length;i++){
+		b[i].onclick=function(){
+			alert(i);//弹窗全是5 用let定义则0-4
+		}
+		//var可以使用闭包传参(function(i){})(i)	
+}
+	/*
+		为每一个对象绑定一个path和监听器，对对象的每个属性都绑定一个get set
+		触发get set时一并触发父类的监听器 
+		触发set时从父类的注册监听事件中 取得要执行的回调函数并执行（如果回调函数存在）
+	*/
+	//分离出一个监听器 用于监听和发布
+	function Event(){
+		this.events = {};
+	}
+	//注册监听事件
+	Event.prototype.on = function(attr, callback){
+		var fns = this.events[attr] || []
+		fns.push(callback)
+		this.events[attr] = fns
+	}
+	//删除监听事件
+	Event.prototype.off = function(attr){
+		for(let key in this.events){
+			if(this.events.hasOwnProperty(key) && key === attr){
+			delete this.events[key];
+			}
+		}
+	}
+	//触发监听事件
+	Event.prototype.emit = function(attr,...arg){
+		//item=→传入的回调函数
+		this.events[attr] && this.events[attr].forEach(function(item){
+			item(...arg);
+		})
+	}
+	/*
+	思路：给data挂载一个监听器，get set时触发
+	如果属性中有对象 继续挂载
+
+	*/
+	function Observer (data) {
+		//暂不考虑数组
+		this.data = data;
+		this.eventsBus = new Event();
+		//存放监听时的回调方法
+		this.watchs={};
+		this.mounted(data,this.eventsBus,'data');
+	}
+	Observer.prototype.watch = function (obj) {
+		var _this = this
+		// 如果值是对象
+		if (obj.constructor === Object) {
+		for(var key in obj) {
+			_this.setterAndGetter(obj, key)
+			}
+		}
+	}
+	/*
+	*source=>data(Object)
+	*events=>父类的监听器
+	*path=>路径
+	*/
+	Observer.prototype.mounted=function(source,events,path){
+		let _this=this;
+		let emitter=new Event();
+		if (!source._ob_) {
+			Object.defineProperty(source, '_ob_', {
+			enumerable: false,
+			value: emitter
+			})
+		}
+		if (!source._path_) {
+			Object.defineProperty(source, '_path_', {
+			enumerable: false,
+			value: path
+			})
+		}
+		let rowPath=path+".";
+		emitter.on("get",key=>{
+			console.log("访问了"+key);
+			events.emit("get",rowPath+key);
+		});
+		emitter.on("set",(key,value)=>{
+			value?value="变成了"+value:value=""
+			console.log("设置了"+key+value);
+			var fns = _this.watchs[key];
+			if (fns) {
+				fns.forEach(fn => {
+					fn.call(null, key, value)
+				})
+			}
+			events.emit('set', rowPath+key)
+		});
+		//如果是对象就遍历所有属性值设置getset
+		_this.watch(source);
+	}
+	Observer.prototype.setterAndGetter = function (source,key) {
+		let _this = this;
+		let emitter=source._ob_;
+		let value=source[key];
+		Object.defineProperty(source, key, {
+		//设置geter seter
+			get: function(){
+				emitter.emit("get",key);
+				return value;
+			},
+			set: function(newVal){
+				init(newVal);
+				emitter.emit('set', key, newVal)
+				value = newVal
+			}
+		})
+		init(value)
+		function init (value) {
+			// 如果值还是对象，就递归
+			if(value.constructor === Object) {
+				_this.mounted(value, emitter, key)
+			}
+		}
+
+	}
+
+	//设置注册事件的方法
+	Observer.prototype.$watch = function(attr, callback){
+		fns=this.watchs[attr]?this.watchs[attr]:[];
+		fns.push(callback);
+		this.watchs[attr]=fns;
+	}
+
+	let app = new Observer({
+		name: {
+			firstName: 'shaofeng',
+			lastName: 'liang'
+		},
+		age: 25,
+		company: 'Qihoo 360',
+		address: 'Chaoyang, Beijing'
+	})
+	//注册监听
+	app.$watch('name', function(){
+		console.log("姓名发生了变化");
+	})
+	app.$watch('firstName', function(){
+		console.log("firstName发生了变化");
+	})
+	app.data.name.firstName={a:1}
+	</script>
+	
+</body>
+</html>

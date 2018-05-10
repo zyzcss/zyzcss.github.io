@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			background: #eee;
+		}
+		.top{
+			width: 100%;
+			left: 0;right: 0;
+			height: 50px;
+			position: absolute;
+			top: 0;
+			margin: 0;background: #000;
+		}
+		.down{
+			clear: both;
+			width: 100%;
+			left: 0;right: 0;
+			height: 50px;
+			position: relative;
+			bottom: 0;
+			margin-top: 20px;
+			margin-bottom:-20px;background: #000;
+		}
+		#wrap {
+			margin:50px;
+	    overflow: hidden; 
+		}
+		#content,#sidebar {
+		background-color: #fff; 
+		}
+		#sidebar {
+		float: right; width: 100px;
+		height: 500px;
+		}
+		#content {
+		margin-right: 120px;
+		height: 500px;
+		}  
+		#content>div{
+			background: #ddd;
+			margin-top: 50px;
+			word-wrap: break-word;
+		}
+	</style>
+</head>
+<body>
+	<div class="top">
+		
+	</div>
+		<div id="wrap">
+		  <div id="sidebar" style="height:240px;">固定宽度区</div>
+		  <div id="content">自适应区
+		  		<div>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+		  		<div>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+		  		<div>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+		  </div>
+		</div>
+	<div class="down">
+		
+	</div>
+</body>
+</html>

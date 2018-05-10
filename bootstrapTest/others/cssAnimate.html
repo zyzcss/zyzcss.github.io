@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#test{
+			width: 200px;
+			height: 200px;background: #f55;
+			position: absolute;
+			transition: all 1s ease;
+			-webkit-animation:myanimate 1.5s  infinite alternate;
+		}
+		#test:active{
+			width: 500px;
+			background: #666;
+		}
+		@-webkit-keyframes myanimate{
+			form{
+				transform:translate(0px,0px) rotate(0deg) scale(1);
+				border-radius: 0px;
+			}
+			to{
+				transform:translate(100px,100px) rotate(350deg) scale(0.5) ;
+				border-radius: 100px;
+			}
+		}
+		#load{
+			width: 100px;
+			height: 100px;
+			border:8px solid #f55;
+			margin: 50px 0 0 500px;
+			border-radius:100px;
+			animation:load 1.5s .1s ease infinite;
+		}
+		.ball{
+			transform-origin:45px 45px;
+			transform:rotate(-50deg);
+			width: 20px;
+			height: 20px;
+			border-radius:20px;
+			background: #f55;
+		}
+		@-webkit-keyframes load{
+			form{
+				transform:rotate(0deg) ;
+			}
+			to{
+				transform:rotate(350deg);
+			}
+		}
+		.square{
+			position: relative;  /*日常相对定位*/
+	        width:150px;
+	        height: 36px;
+	        border:1px solid #fff;
+	        margin-left: 50px;
+	        border-radius:5px;
+	        background: #f55;
+		}
+		.square:before,.square:after{
+			content: "";
+	        display: block;
+	        position: absolute;
+	        width:0;
+	        height: 0;
+	        border: 6px solid transparent;
+	        border-right-color: #f55;
+	        left: -11px;
+	        top: 11px;
+	        z-index:1;
+		}
+		.square:after{
+			left: -12px;
+		    border-right-color: #fff;
+		    z-index:0;
+		}
+		.book{
+			position: relative;
+			width: 300px;
+			height: 200px;
+			background: #ccc;
+			margin-left: 500px;
+			box-shadow: 1px 2px 2px  rgba(0,0,0,0.4);
+			transition:all 1s ease; 
+		}
+		.book:before{
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 0;
+			right: 0;
+			border-width: 0px;
+			border-style: solid;
+			border-bottom-left-radius:6px;
+			border-color: rgba(0,0,0,0.2) #ccc;
+			box-shadow: 1px 2px 2px  rgba(0,0,0,0.4);
+			transition:all 1s ease;
+		}
+		.book:hover:before{
+			border-right-width: 30px;
+			border-bottom-width: 30px;
+		}
+	</style>
+</head>
+<body style="background: #eee">
+	<div id="test">
+	</div>
+	<div id="load">
+		<div class="ball">
+		</div>
+	</div>
+	<div id="load" style="border:8px solid #fff;border-left: 8px solid #f55;">
+	</div>
+	<div class="square">
+	</div>
+	<div class="book">
+	</div>
+	<script type="text/javascript" src="myToolkit.js">
+	</script>
+</body>
+</html>

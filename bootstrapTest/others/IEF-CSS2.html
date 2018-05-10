@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	*{
+		margin:0;
+		padding:0;
+	}
+	#wrap{
+		position: absolute;
+		top: calc(50vh - 100px);
+		left: calc(50vw - 100px);
+		height: 210px;
+		width:200px;
+		text-align: center;
+	}
+	#circle{
+		position: absolute;
+		z-index: 2;
+		top:30px;
+		left:30px;
+		border:60px solid rgb(251, 139, 189);
+		border-radius: 50%;
+		border-left-color:rgb(255, 41, 140);
+		border-bottom-color:rgb(255, 41, 140);
+	}
+	#left{
+		position: absolute;
+		z-index:3;
+		top:30px;
+		left:30px;
+		border:60px solid rgb(251, 139, 189);
+		border-radius: 50%;
+		border-left-color:transparent;
+		border-bottom-color:transparent;
+		animation:leftRing 2s infinite linear;
+	}
+	@keyframes leftRing{
+		0%{
+			transform:rotate(0deg);
+		}
+		25%{
+			transform:rotate(180deg);
+		}
+		50%{
+			transform:rotate(180deg);
+			z-index:3;
+		}
+		75%{
+			transform:rotate(360deg);
+			z-index:3;
+		}
+		100%{
+			transform:rotate(360deg);
+		}
+	}
+	#right{
+		position:absolute;
+		z-index:2;
+		top:30px;
+		left:30px;
+		border:60px solid rgb(255, 41, 140);
+		border-left-color: transparent;
+		border-bottom-color:transparent;
+		border-radius:50%;
+		animation: rightRing 2s infinite linear;
+	}
+	@keyframes rightRing{
+		0%{
+			transform:rotate(0deg);
+			z-index: 3;
+		}
+		25%{
+			transform:rotate(0deg);
+			z-index:3;
+		}
+		25.001%{
+			transform:rotate(0deg);
+			z-index:2;
+		}
+		50%{
+			transform:rotate(180deg);
+			z-index:2;
+		}
+		75%{
+			transform:rotate(180deg);
+			z-index:2;
+		}
+		75.001%{
+			transform:rotate(180deg);
+			z-index:3;
+		}
+		100%{
+			transform:rotate(360deg);
+			z-index:3;
+		}
+	}
+	#arc{
+		position: absolute;
+		box-sizing:border-box;
+		width:180px;
+		height: 180px;
+		border-radius: 50%;
+		border: 2px solid rgb(255,41,140);
+		border-right-color: transparent;
+		animation: arcRing 1s infinite linear;
+	}
+	@keyframes arcRing{
+		from{
+			transform:rotate(0deg);
+		}
+		to{
+			transform:rotate(360deg);
+		}
+	}
+	#wrap>p{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		margin: 25px 0 0 -20px;
+		right: 0;
+		font-family: "微软雅黑";
+		font-size: 1rem;
+		color: white;
+	}	
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="circle"></div>
+		<div id="left"></div>
+		<div id="right"></div>
+		<div id="arc"></div>
+		<p><strong>加载中 请稍后</strong></p>
+	</div>
+</body>
+</html>

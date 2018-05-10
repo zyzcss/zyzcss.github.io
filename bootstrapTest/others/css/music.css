@@ -1,0 +1,660 @@
+html{
+    font-size: 15px;
+}
+body{
+    background: #ccc;
+    font-family: "微软雅黑","楷体";
+}
+#player{
+    margin:auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    position: absolute;
+    width:380px;
+    height:570px;;
+    background: #666;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    transition: all 0.55s cubic-bezier(.26,-0.56,.78,1.48);
+}
+.player-card{
+    padding: 10px;
+    text-align: center;
+    color: white;
+}   
+.player-card>div{
+    margin: 0 auto;
+}
+.player-card>h4{
+    margin:5px 0 2.5em 0;
+}
+/* 
+    右上角的控制菜单
+*/
+.player-card>.player-toggle{
+    background: url("../imgs/setting.svg") no-repeat;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width:25px;
+    height: 25px;
+    transform: scaleY(1.2);
+    cursor: pointer;
+    margin:0;
+    display: block;
+    opacity: 0.8;
+}
+.player-card>.player-toggle:hover>{
+    opacity: 1;
+}
+.player-card>.player-toggle>.player-toggle-list{
+    position: absolute;
+    opacity: 1;
+    display: block;
+    top: 25px;
+    left: 0;
+    width: 25px;
+    height: 0px;
+    overflow: hidden;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+.player-card>.player-toggle:hover>.player-toggle-list{
+    height:200%;
+}
+.player-card>.player-toggle>.player-toggle-list>div{
+    height: 25px;
+    width: 25px;
+    opacity: 0.8;
+}
+.player-card>.player-toggle>.player-toggle-list>.player-list-icon{
+    background: url(../imgs/list.svg) no-repeat;
+}
+.player-card>.player-toggle>.player-toggle-list>.player-search-icon{
+    background: url(../imgs/search.svg) no-repeat;
+}
+
+/* 
+    封面
+*/
+.player-card>.player-corver{
+    width:200px;
+    height: 200px;
+}
+.player-card>.player-corver>img{
+    border-radius: 50%;
+    width:200px;
+    height: 200px;
+}
+/* 
+    歌曲信息
+*/
+.player-card>.player-info{
+    width:80%;
+}
+.player-card>.player-info>span{
+    display: block;
+}
+.player-card>.player-info>.player-info-album{
+    font-size: 12px;
+}
+/* 
+    控制菜单
+*/
+.player-card>.player-controls{
+    margin-top: 55px;
+    position: relative;
+}
+.player-card>.player-controls>div{
+    position: absolute;
+    opacity: 0.8;
+}
+.player-card>.player-controls>div:hover{
+    cursor: pointer;
+    opacity:1;
+}
+.player-card>.player-controls>.player-controls-pre{
+    left: 20px;
+    width: 25px;
+    height: 50px;
+    background: url("../imgs/pre.svg");
+    zoom: 1.5;
+}
+.player-card>.player-controls>.player-controls-sound{
+    height: 30px;
+    left: 30px;
+    top: -55px;
+}
+.player-card>.player-controls>.player-controls-sound:hover>.player-sound-volume{
+    transform: scale(1,1);
+}
+.player-card>.player-controls>.player-controls-sound:hover>.player-sound-now{
+    transform: scale(1,1);
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-icon{
+    width: 24px;
+    height: 24px;
+    zoom: 1.25;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin-right: 5px;
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-icon-nosound{
+    background-image: url("../imgs/nosound.svg");
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-icon-moresound{
+    background-image: url("../imgs/moresound.svg");
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-icon-mustsound{
+    background-image: url("../imgs/mustsound.svg");
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-volume{
+    transform: scale(0,0);
+    transform-origin: left center;
+    opacity: 0.7;
+    top:14px;
+    height: 5px;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-now{
+    transform:scale(0,0);
+    transform-origin: left center;
+    height: 5px;
+    top:14px;
+    background: #f55;
+    transition: all 0.35s ease 0.05s;
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-click{
+    height: 15px;
+    top:9px;
+}
+.player-card>.player-controls>.player-controls-sound>.player-sound-volume,
+.player-card>.player-controls>.player-controls-sound>.player-sound-now,
+.player-card>.player-controls>.player-controls-sound>.player-sound-click{
+    width:260px;
+    left: 40px;
+    position: absolute;
+}
+.player-card>.player-controls>.player-controls-pause{
+    width:60px;
+    height: 60px;
+    margin:auto;
+    border-radius: 50%;
+    top:-20px;
+    position: relative;
+    zoom: 1.4;
+    background: url("../imgs/pause.svg");
+}
+.player-card>.player-controls>.player-controls-start{
+    background: url("../imgs/start.svg");
+}
+.player-card>.player-controls>.player-controls-next{
+    right: 20px;
+    top: 0;
+    width: 25px;
+    height: 30px;
+    background: url("../imgs/next.svg");
+    zoom: 1.5;
+}
+/* 
+    进度条 时间
+*/
+.player-card>.player-time{
+    overflow: hidden;
+}
+.player-card>.player-time>span{
+    display: inline-block;
+}
+.player-card>.player-time>.player-start{
+    position: absolute;
+    bottom: 2rem;
+    left: 25px;
+}
+.player-card>.player-time>.player-end{
+    position: absolute;
+    bottom: 2rem;
+    right: 25px;
+}
+.player-card>.player-time>.player-progress{
+    position: absolute;
+    width:327px;
+    height: 8px;
+    left: 0;
+    right: 0;
+    bottom:15px;
+    margin: auto;
+    cursor: pointer;
+    padding: 3px 0 0 0;
+}
+.player-card>.player-time>.player-progress>.player-progress-back{
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+}
+.player-card>.player-time>.player-progress>.player-progress-now{
+    position: absolute;
+    width: 0px;
+    height: 2px;
+    background: #f55;
+}
+/* 
+    加载
+*/
+.load{
+    width:100%;
+    height: 100%;
+    background: #eee;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+/* 
+    列表    
+ */
+#player-list{
+    width: 100%;
+    height: 100%;
+    left: 100%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    background: #666;
+    border-radius: 5px;
+    padding: 0;
+    color:white;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.6);
+    transition: left 0.55s;
+}
+#player-list>.player-list-title{
+    padding: 0;
+    text-align: center;
+    background: #555;
+    height: 3rem;
+    line-height: 3rem;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.5)
+}
+#player-list>.player-list-title>h3{
+    margin: 0;
+}
+.player-icon-back{
+    background: url("../imgs/back.svg");
+    width: 25px;
+    height: 25px;
+    opacity: 0.8;
+    cursor: pointer;
+    position: absolute;
+    top:10px;
+    left: 8px;
+}
+#player-list>.player-list-songsList{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    height: calc(100vh - 3rem);
+    overflow-x: hidden;
+}
+.list-scroll::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+.list-scroll::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #535353;
+}
+.list-scroll::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background: #EDEDED;
+}
+#player-list>.player-list-songsList>li{
+    display: inline-block;
+    width: 100%;
+    height: 2.5rem;
+    background: #666;
+    line-height: 2.5rem;
+    box-sizing: border-box;
+    border-bottom:1px solid #eee;
+    position: relative;
+    left: 0;
+    top:0;
+    transition: all 0.45s cubic-bezier(.26,-0.56,.78,1.48);
+}
+#player-list>.player-list-songsList>li.list-remove{
+    left:500px;
+    height: 0;
+}
+#player-list>.player-list-songsList>li>div{
+    overflow: hidden;
+    display: inline-block;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#player-list>.player-list-songsList>li>div>span{
+    cursor: pointer;
+}
+.player-list-song{
+    width:12rem;
+}
+.player-list-singer{
+    width:6.5rem;
+}
+.player-list-playtime{
+    width:4.5rem;
+}
+#player-list>.player-list-songsList>li>.player-list-remove{
+    width: 12px;
+    height: 100%;
+    right: 0.5rem;
+    position: absolute;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#player-list>.player-list-songsList>li>.player-list-remove:after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+}
+.player-rotate90{
+    transform: rotate(90deg);
+}
+#player-search{
+    margin:auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    position: absolute;
+    width:380px;
+    height:570px;;
+    background: #666;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    transition: all 0.55s cubic-bezier(.26,-0.56,.78,1.48) ;
+    /* z-index: -1;
+    transform: rotateY(-180deg); */
+    z-index: 10;
+    padding: 0;
+}
+#player-search>.player-search-header{
+    position: relative;
+    height: 50px;
+    margin-bottom: 1rem;
+}
+#player-search>.player-search-header>.player-search-in{
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    line-height:40px; 
+    height: 40px;
+    overflow: hidden;
+    width: 100%;
+}
+#player-search>.player-search-header>.player-search-in>input{
+    position: absolute;
+    font-size: 1.25rem;
+    left: 3rem;
+    right: 0;
+    bottom: 2px;
+    border:0px;
+    outline: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    background: transparent;
+    text-indent: 0.5rem;
+    width: 75%;
+    color: white;
+}
+#player-search>.player-search-header>.player-search-in>input:focus{
+    border-bottom-color:rgba(255, 255, 255, 1);
+}
+#player-search>.player-search-header>.player-search-in>.player-search-button{
+    background:#fff;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 10px;
+    zoom: 1.3;
+    background: url("../imgs//search.svg") no-repeat;
+    top:0.9rem;
+    outline: none;
+}
+#player-search>.player-search-header label{
+    display: inline-block;
+    position: relative;
+    top:42px;
+    margin-left: 25px;
+    color: white;
+    cursor: pointer;
+}
+#player-search>.player-search-header label:after{
+    content: '';
+    vertical-align: middle; 
+    display: inline-block;
+    margin-top:-2px;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border:3px solid #fff;
+}
+#player-search>.player-search-header input[type="radio"]:checked+label:after{
+    background: lightcoral;
+    animation: big 0.5s;
+    border-radius: 50%;
+}
+@keyframes big{
+    0%{
+        transform: scale(1);
+        border-radius: 0%;
+    }
+    50%{
+        transform: scale(1.5)
+    }
+    100%{
+        transform: scale(1);
+        border-radius: 50%;
+    }
+}
+#player-search>.player-search-header input[type="radio"]{
+   display: none;
+}
+#player-search>.player-search-hr{
+    width: 100%;
+    background: #555;
+    height: 2px;
+    position: relative;
+    margin: auto;
+    box-shadow: 0px 2px 2px rgba(255,255,255,0.8);
+}
+#player-search>.player-search-searchList{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    height: calc(100vh - 42px);
+    overflow-x: hidden;
+}
+#player-search>.player-search-searchList>li>div{
+    overflow: hidden;
+    display: inline-block;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#player-search>.player-search-searchList>li{
+    color:#eee;
+    display: inline-block;
+    width: 100%;
+    height: 2.5rem;
+    background: #666;
+    line-height: 2.5rem;
+    box-sizing: border-box;
+    border-bottom:1px solid #444;
+    position: relative;
+    left: 0;
+    top:0;
+}
+input::-webkit-input-placeholder{
+    color: #fff;opacity:0.6;
+    text-indent: 0.5rem;
+}
+input::input-placeholder{
+    color: #fff;opacity:0.6;
+    text-indent: 0.5rem;
+}
+#player-search.card-rotate{
+    transform: rotateY(0deg);
+    z-index:1;
+}
+.card-rotate{
+    transform: rotateY(180deg);
+}
+/* 
+    css 不换行 省略多余的
+ */
+.line-limit-length {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+button{
+    border:none;
+}
+/* 
+    加载动画
+*/
+#wrap{
+    position: absolute;
+    top: calc(50vh - 100px);
+    left: calc(50vw - 90px);
+    height: 210px;
+    width:200px;
+    text-align: center;
+    opacity: 0.8;
+}
+#circle{
+    position: absolute;
+    z-index: 2;
+    top:30px;
+    left:30px;
+    border:60px solid rgb(251, 139, 189);
+    border-radius: 50%;
+    border-left-color:rgb(255, 41, 140);
+    border-bottom-color:rgb(255, 41, 140);
+}
+#left{
+    position: absolute;
+    z-index:3;
+    top:30px;
+    left:30px;
+    border:60px solid rgb(251, 139, 189);
+    border-radius: 50%;
+    border-left-color:transparent;
+    border-bottom-color:transparent;
+    animation:leftRing 2s infinite linear;
+}
+@keyframes leftRing{
+    0%{
+        transform:rotate(0deg);
+    }
+    25%{
+        transform:rotate(180deg);
+    }
+    50%{
+        transform:rotate(180deg);
+        z-index:3;
+    }
+    75%{
+        transform:rotate(360deg);
+        z-index:3;
+    }
+    100%{
+        transform:rotate(360deg);
+    }
+}
+#right{
+    position:absolute;
+    z-index:2;
+    top:30px;
+    left:30px;
+    border:60px solid rgb(255, 41, 140);
+    border-left-color: transparent;
+    border-bottom-color:transparent;
+    border-radius:50%;
+    animation: rightRing 2s infinite linear;
+}
+@keyframes rightRing{
+    0%{
+        transform:rotate(0deg);
+        z-index: 3;
+    }
+    25%{
+        transform:rotate(0deg);
+        z-index:3;
+    }
+    25.001%{
+        transform:rotate(0deg);
+        z-index:2;
+    }
+    50%{
+        transform:rotate(180deg);
+        z-index:2;
+    }
+    75%{
+        transform:rotate(180deg);
+        z-index:2;
+    }
+    75.001%{
+        transform:rotate(180deg);
+        z-index:3;
+    }
+    100%{
+        transform:rotate(360deg);
+        z-index:3;
+    }
+}
+#arc{
+    position: absolute;
+    box-sizing:border-box;
+    width:180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 2px solid rgb(255,41,140);
+    border-right-color: transparent;
+    animation: arcRing 1s infinite linear;
+}
+@keyframes arcRing{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+#wrap>p{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 25px 0 0 -20px;
+    right: 0;
+    font-family: "微软雅黑";
+    font-size: 1rem;
+    color: #555;
+}
+

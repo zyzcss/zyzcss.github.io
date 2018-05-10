@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#timer{
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			background: url(file:////storage/emulated/0/Pictures/Histories/History_2018-02-07-17-57-22.png);
+			background-size:80px 60px;
+			position: relative;
+			margin: 100px auto;
+			transform:rotate(-30deg) ;
+			transform-origin:25px -95px;
+
+			z-index: 2;
+			box-shadow: 3px 3px 3px rgba(0,0,0,0.9);
+			transition: all 1s ease;
+			animation:myanimate 1.5s  infinite alternate;
+		}
+		#timer:after{
+			content: '';
+			width: 4px;
+			height: 100px;
+			left: 24px;
+			top: -100px;
+			z-index: -1;
+			box-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+			position: absolute;
+			background: #999;
+		}
+		@keyframes myanimate{
+			form{
+				transform:rotate(-30deg) ;
+			}
+			to{
+				transform:rotate(30deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="timer"></div>
+	<script type="text/javascript">
+		let a=[1,2,12,13,99,5];
+		console.log(a.sort(function(val1,val2){
+			return val1-val2
+		}))
+	</script>
+
+	
+</body>
+</html>

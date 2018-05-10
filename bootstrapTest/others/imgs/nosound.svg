@@ -1,0 +1,16 @@
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <line fill="#fff" x1="1.930389" y1="6.670882" x2="1.930389" y2="18.322779" id="svg_3" stroke-linejoin="null" stroke-linecap="null"/>
+   <path fill="#fff" d="m1.12701,18.2944l3.10917,-11.51898l10.36391,0l3.10918,11.51898l-16.58226,0z" id="svg_4" transform="rotate(-90 9.418135643005373,12.534907341003418) "/>
+   <line stroke="#ffffff" transform="rotate(-32.57472610473633 19.609027862548825,12.537686347961424) " stroke-linecap="null" stroke-linejoin="null" id="svg_8" y2="17.236462" x2="19.609029" y1="7.838911" x1="19.609029" stroke-width="2" fill="none"/>
+   <line stroke="#ffffff" transform="rotate(-149.1243133544922 19.427778244018555,12.619568824768066) " stroke-linecap="null" stroke-linejoin="null" id="svg_9" y2="17.611629" x2="19.427779" y1="7.627507" x1="19.427779" stroke-width="2" fill="none"/>
+  </g>
+ </g>
+</svg>

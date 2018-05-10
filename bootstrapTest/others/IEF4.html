@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		ul{
+			list-style: none;
+			display: block;
+			height: 200px;
+		}
+		li{
+			float: left;
+			margin-left:15px;
+			cursor: pointer;
+			transition: all 1s;
+			bottom: 0;
+			background: #f55;
+			font-size: 20px;
+		}
+		li:hover{
+			transform: scale(2) rotate(360deg);
+		}
+		span{
+			background: #fff;
+		}
+	</style>
+</head>
+<body>
+	<textarea id="texts"></textarea>
+	<button id="search">搜索</button>
+	<button id="leftIn">左侧入</button>
+	<ul id="numberlist"></ul>
+	
+	<script type="text/javascript">
+		let num=document.getElementById("texts");
+		let ul=document.getElementById("numberlist");
+		let list=[];
+		let lists=[];
+		let lis;
+		document.getElementById("leftIn").addEventListener("click",function(){
+				list=(num.value.split(/,|\.|\s+/));
+				console.log(list);
+				for(let i=0;i<list.length;i++){
+					if(list[i]!=""&&list[i]!="."&&list[i]!=","){
+						lists.unshift(list[i]);;
+						let li=getLi(list[i]); 
+						let firstLi=document.getElementsByTagName("li")[0];
+						firstLi?ul.insertBefore(li,firstLi):ul.appendChild(li);
+						num.value="";
+					}
+				}
+		});
+		document.getElementById("search").addEventListener("click",function(){
+			let lists1=lists.slice();
+			let l=mySearch(lists,num.value);
+			console.log("lll"+lists);
+			let j;
+			let j1=0;
+			for(let k=0;k<l.length;k++){
+				if(k!=0&&j==l[k][0]){
+					j1++;
+				}else{
+					j=l[k][0];
+					j1=0;
+				}
+				let l2=lists1[l[k][0]].split('');
+				l2.splice(l[k][1]+j1*13,0,"<span>");
+				l2.splice(l[k][1]+num.value.length+1+j1*13,0,"</span>");
+				lists1[l[k][0]]=l2.join('');
+			}
+			console.log(lists1);
+			for(let i=0;i<lists1.length;i++){
+				let firstLi=document.getElementsByTagName("li")[0];
+				ul.removeChild(firstLi);
+			}
+			for(let i=0;i<lists1.length;i++){
+				let li=getLi(lists1[i]);
+				ul.appendChild(li);
+			}
+		});
+		function mySearch(list,str){
+			let flag=0;
+			let flag2=0;
+			let s2=str.split('');
+			let list2=[];
+			for (let i=0;i<list.length;i++){
+				let s1=list[i].split('');
+				for(let j=0;j<=list[i].length;j++){
+					console.log(list[i].length)
+					if(s1[j]==s2[flag]){
+						flag++;
+						flag2=j-s2.length+1;
+					}else{
+						flag=0;
+						flag2=0;
+					}
+					if(flag==s2.length){
+						list2.push([i,flag2]);
+						flag=0;
+					}
+				}
+				flag=0;
+				flag2=0;
+			}
+			return list2;
+		}
+		function getLi(text){
+			let li=document.createElement("li");
+			li.innerHTML=text;
+			//li.style.marginTop=200-num.value+"px";
+			li.addEventListener("click",function(){
+				ul.removeChild(this);
+			})
+			return li;
+		}
+
+	</script>
+</body>
+</html>

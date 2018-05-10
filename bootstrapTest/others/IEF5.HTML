@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#main{
+			width: 580px;
+			height: 580px;
+			display: flex;
+			margin: 0 auto;
+			flex-wrap:wrap;
+			border: 1px solid #666;
+			font-size: 20px;
+		}
+		#box{
+			display: flex;
+			width: 93%;
+			height: 93%;
+			margin: 0 auto;
+			flex-wrap:wrap;
+			border: 1px solid #666;
+		}
+		.pox{
+			border: 1px solid #666;
+			flex-grow: 1;
+			width: 10%;
+			height: 10%;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		#mainX{
+			width: 95%;
+			height: 5%;
+		}
+		#mainY{
+			width: 6%;
+			height: 90%;
+			left: 0;
+		}
+		span{
+			width: 10%;
+			display: inline-block;
+			text-align: right;
+		}
+		p{
+			width: 100%;
+			height: 3%;
+			display: inline-block;
+			text-align: center;
+		}
+		.mypox{
+			border: 1px solid #666;
+			border-top-width: 10px;
+			background: #f55;
+			flex-grow: 1;
+			width: 10%;
+			margin: 0;
+			box-sizing: border-box;
+			position: relative;
+		}
+		.mypox:after{
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			background: #222;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="main">
+		<div id="mainX"></div>
+		<div id="mainY"></div>
+	</div>
+	<button onclick="poxGo()">Go</button>
+	<button onclick="poxLeft()">Left</button>
+	<button onclick="poxRight()">Right</button>
+	<script type="text/javascript">
+		var fx=1;
+		var num=35;
+		var rotate=0;
+		(function setGrid(len){
+			let mainX=document.getElementById("mainX");
+			for(let i=0;i<len;i++){
+				let span=document.createElement("span");
+				let txt = document.createTextNode(i+1); 
+				span.appendChild(txt);
+				mainX.appendChild(span);
+			}
+			let mainY=document.getElementById("mainY");
+			for(let i=0;i<len;i++){
+				let span=document.createElement("p");
+				let txt = document.createTextNode(i+1); 
+				span.appendChild(txt);
+				mainY.appendChild(span);
+			}
+			let box=document.createElement("div");
+			box.setAttribute("id","box");
+			for(let i=0;i<len*len;i++){
+				let div=document.createElement("div");
+				div.setAttribute("class","pox");
+				box.appendChild(div);
+			}
+			document.getElementById("main").appendChild(box);
+		})(10);
+		document.getElementsByClassName("pox")[35].setAttribute("class","mypox");
+		var poxGo=function(){
+			var mypox1=document.getElementsByClassName("mypox")[0];
+			mypox1.removeAttribute("class","mypox");
+			mypox1.setAttribute("class","pox");
+			if(fx==1&&num-10>=0)num-=10;
+			if(fx==4&&num%10!=0)num-=1;
+			if(fx==2&&(num+1)%10!=0)num+=1;
+			if(fx==3&&num+10<=99)num+=10;
+			document.getElementsByClassName("pox")[num].setAttribute("class","mypox");
+			document.getElementsByClassName("mypox")[0].style.transform="rotate("+rotate+"deg)";
+		}
+		var poxLeft=function(){
+			rotate-=90;
+			fx>1?fx--:fx=4;
+			document.getElementsByClassName("mypox")[0].style.transform="rotate("+rotate+"deg)";
+		}
+		var poxRight=function(){
+			rotate+=90;
+			fx<4?fx++:fx=1;
+			document.getElementsByClassName("mypox")[0].style.transform="rotate("+rotate+"deg)";
+		}
+	</script>
+</body>
+</html>

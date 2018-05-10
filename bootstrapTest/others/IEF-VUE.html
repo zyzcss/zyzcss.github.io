@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		input[type=checkbox]{
+			display: none;
+		}
+		input[type=checkbox]:checked + .checkbox{
+			border:3px solid #f55;
+			box-shadow: 1px 1px 1px rgba(0,0,0,0.5)
+		}
+		.checkbox{
+			box-sizing: border-box;
+			width:15px;
+			height: 15px;
+			display: inline-block;
+			border:2px solid  #eee;
+			border-radius:5px;
+		}
+	</style>
+</head>
+<body>
+	<label>
+		<input type="checkbox">
+		<span class="checkbox"></span>
+	</label>
+	<div id="app">
+	    <p>姓名：{{user.name}}</p>
+	    <p>年龄：{{user.age}}</p>
+	</div>
+	<script type="text/javascript">
+		function Vue(obj){
+			this.render(obj)
+		}
+		Vue.prototype={
+			render:function(obj){
+				let el=document.querySelector(obj.el);
+				let data=obj.data;
+				let objHTML=el.innerHTML;
+				let strArray = objHTML.match(/{{\S*?}}/g);
+				let propList=strArray.map((value)=>{
+					return value.slice(2,value.length-2).split(".")
+				});
+				for(let i=0;i<strArray.length;i++){
+					let prop=data;
+					while(propList[i].length>0){
+						prop=prop[propList[i].shift()];
+					}
+					objHTML=objHTML.replace(strArray[i],prop)
+				}
+				console.log(objHTML);
+				el.innerHTML=objHTML;	
+			}
+		}
+		let app = new Vue({
+		  el: '#app',
+		  data: {
+		    user: {
+		      name: 'youngwind',
+		      age: 25
+		    }
+		  }
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.backG{
+			width: 400px;
+			cursor: pointer;
+			height: 300px;
+			position: relative;
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+			background: #ddd;
+		}
+		.backG:hover img{
+			-webkit-filter: blur(4px);
+		}
+		.backG:hover .box{
+			padding-bottom:10px;
+		}
+		.backG:hover p{
+			opacity:1;
+		}
+		.backG:hover .box:after{
+			transform: scaleX(1);
+			border-width:2px 0px;
+		}
+		.backG:hover .box:before{
+			transform: scaleY(1);
+			border-width:0px 1px;
+		}
+		img{
+			width: 80%;
+			cursor: pointer;
+			height: 80%;
+			vertical-align: middle;
+		}
+		.box{
+			position: absolute;
+			width: 276px;
+			height: 158px;
+			padding-top: 40px;
+			z-index: 1;
+			left:0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			margin: auto;
+			-webkit-transition: padding-bottom 0.5s ease;
+		}
+		.box:after{
+			content: "";
+			position: absolute;
+			left: 0;
+			top:0;
+			bottom: 0;
+			right: 0;
+			z-index: -1;
+			transform: scaleX(0);
+			border-width: 4px 0px;
+			border-color:#eee;
+			border-style: solid;
+			transition: all 1s ease;
+		}
+		.box:before{
+			content: "";
+			z-index: -1;
+			position: absolute;
+			left: 0;
+			top:0;
+			bottom: 0;
+			right: 0;
+			transform: scaleY(0);
+			border-width: 0px 4px;
+			border-color:#eee;
+			border-style: solid;
+			transition: all 1s ease;
+		}
+		P{
+			opacity: 0;	
+			z-index: 10;
+            -webkit-transition: opacity 0.5s ease;
+		}
+		P:first-child{
+			font-size: 1.5em;
+			background: linear-gradient(90deg, #f55 0%, #8eb5bf 25%, #d1528e 50%, #8eb5bf 75%, #d1528e 100%);
+			background-size: 200% 100%;
+			-webkit-background-clip: text;
+			background-clip: text;
+			color:transparent;
+			animation: liner-text 1s infinite linear;
+		}
+		p:last-child{
+			font-size: 1em;
+		}
+		a{
+			text-decoration: none;
+			z-index: 10;
+			color: #308ad9;
+		}
+		a:hover{
+			color: #558a8c;
+		}
+		@-webkit-keyframes liner-text{
+			0% {
+				background-position: 0 0;
+			}
+			100% {
+				background-position: -100% 0;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="backG">
+		<img src="01.jpg" >
+		<div class="box">
+			<p><strong>我就是流光字体</strong></p>
+			<p><a href="#">点击报名</a></p>
+		</div>
+	</div>
+
+</body>
+</html>
