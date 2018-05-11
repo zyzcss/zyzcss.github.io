@@ -135,20 +135,24 @@
                 corverImg=$('.player-corver>img'),
                 pause=control.find(".player-controls-pause"),
                 isRun=false,
+                nowSong=0,
                 searchUl=$("#player-search .player-search-searchList");;
             player.preload="auto";
-            //暂停开始事件
+            //暂停开始事件 采用setTimeout完成队列防止多次使用
             let onlyPlayOne=null,
                 playerOn=function(){
                     pause.click();
                 },
                 ikk=[];
+                /* isStop=true;
+                nowSong=i;
+                setSong(i);
+                pause.click(); */
             pause.on("click",function(){
                 onlyPlayOne=function(){};
                 ikk.forEach(function(i){
                     clearTimeout(i);
                 })
-                console.log("on");
                 if(isStop){
                     $(this).removeClass("player-controls-start")
                     player.play();
@@ -164,28 +168,32 @@
             });
             //上一首下一首
             control.find(".player-controls-pre").on("click",function(){
-                onlyPlayOne=playerOn;
-                if(nowSong>0){
-                    setSong(--nowSong);
-                }else{
+                if(!nowSong>0){
                     alert("没有上一首了");
+                    return;
                 }
+                player.load();
                 isStop=true;
+                onlyPlayOne=playerOn;
+                nowSong--;
+                setSong(nowSong);
                 ikk.push(setTimeout(function(){
                     onlyPlayOne();
-                },1000));
+                },600));
             });
             control.find(".player-controls-next").on("click",function(){
-                onlyPlayOne=playerOn;
-                if(nowSong<songsList.length-1){
-                    setSong(++nowSong);
-                }else{
+                if(nowSong>songsList.length-1){
                     alert("没有下一首了");
+                    return;
                 }
+                player.load();
                 isStop=true;
+                onlyPlayOne=playerOn;
+                nowSong++;
+                setSong(nowSong);
                 ikk.push(setTimeout(function(){
                     onlyPlayOne();
-                },1000));
+                },600));
                 
             });
             //声音事件
@@ -269,7 +277,6 @@
             //getSongById(213737);
             //获得歌单列表
             let songsList=[],
-                nowSong=0,
                 songsListInfo=$(".songsListInfo");
             function getSongList(id,isSearch){
                 $.ajax({    
@@ -315,7 +322,6 @@
                 let playerSong=songsList[num];
                 if(playerSong){
                     changeInfo(playerSong);
-                    console.log(playerSong);
                 }else{
                     alert("歌曲出错啦")
                 }
@@ -401,7 +407,6 @@
                 search=$('#player-search');
             (function(){
                 playerToggle.find(".player-list-icon").on("click",function(e){
-                    console.log("aaa")
                     $('#player-list').css("left",0);
                     e.stopPropagation();
                 });

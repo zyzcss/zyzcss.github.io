@@ -4,6 +4,9 @@
 .player-card>.player-controls>.player-controls-sound>.player-sound-now{
     transform: scaleX(1);
 }
+*{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
 .player-card>.player-controls>.player-controls-sound>.player-sound-volume,
 .player-card>.player-controls>.player-controls-sound>.player-sound-now,
 .player-card>.player-controls>.player-controls-sound>.player-sound-click{
