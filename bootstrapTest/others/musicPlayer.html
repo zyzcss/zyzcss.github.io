@@ -16,7 +16,7 @@
         <div id="player">
             <div class="player-card">
                 <h4>我的音乐播放器</h4>
-                <span class="player-toggle" title="更多功能">
+                <span class="player-toggle" title="更多功能" ontouchstart>
                     <div class="player-toggle-list">
                         <div class="player-list-icon" title="列表"></div>
                         <div class="player-search-icon" title="搜索"></div>
@@ -26,7 +26,7 @@
                     <img src="">
                 </div>
                 <div class="player-info">
-                    <h2 class="player-info-music line-limit-length">加载中啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</h2>
+                    <h2 class="player-info-music line-limit-length">加载中</h2>
                     <span class="player-info-singer line-limit-length">加载中</span>
                     <span class="player-info-album line-limit-length">加载中</span>
                 </div>
@@ -85,7 +85,14 @@
                 <div class="player-icon-back"></div>
             </div>
             <div class="player-search-hr"></div>
-            <ul class="player-search-searchList list-scroll"></ul>
+            <div class="player-search-container ">
+                <ul class="player-search-searchList list-scroll">
+                </ul>
+                <div class="list-load-container list-load-none">
+                    <div class="list-load">
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="load">
             <div id="wrap">
@@ -127,7 +134,9 @@
                 timer=null,
                 corverImg=$('.player-corver>img'),
                 pause=control.find(".player-controls-pause"),
-                isRun=false;
+                isRun=false,
+                searchUl=$("#player-search .player-search-searchList");;
+            player.preload="auto";
             //暂停开始事件
             let onlyPlayOne=null,
                 playerOn=function(){
@@ -235,6 +244,7 @@
                                     alert("没有查询到相关歌曲");
                                     console.log("没有查询到相关歌曲");
                                 }
+                                searchLoad.addClass("list-load-none");
                             }else{
                                 if(info){
                                     songsList.push(info);
@@ -249,6 +259,9 @@
                     },
                     error:function(error){
                         console.log(error);
+                        if(isSearch){
+                            searchLoad.addClass("list-load-none");
+                        }
                         alert("加载失败 请确定歌曲是否存在");
                     }    
                 });  
@@ -277,18 +290,23 @@
                             }else{
                                 songsList=result.result.tracks;
                                 console.log(songsList);
-                                localStorage.setItem('songsList', JSON.stringify(songsList));
                                 loadSongList(songsList);
-                                createLi();
+                                createLi(songsList);
                             }
+                            searchLoad.addClass("list-load-none");
+                            localStorage.setItem('songsList', JSON.stringify(songsList));
                         }else{
                             alert("查找失败 请确定输入的歌单是否存在");
                             console.log("查找失败");
+                            searchLoad.addClass("list-load-none");
                         }
                     },
                     error:function(error){
                         console.log(error);
                         alert("服务器繁忙 稍后尝试");
+                        if(isSearch){
+                            searchLoad.addClass("list-load-none");
+                        }
                     }
                 });
             }
@@ -316,6 +334,7 @@
             });
             //更改歌曲信息
             let playTime=0;
+            //改变信息
             function changeInfo(playerSong){
                 songCorver.attr("src",playerSong["album"].picUrl+"?param=200y200");
                 songInfo[0].innerText=playerSong.name;
@@ -339,7 +358,7 @@
                 }
                 return singersName;
             }
-            //工具方法及杂项
+            //时间字体
             let setTimeText=function(){
                 if(player.ended){
                     control.find(".player-controls-next").click();
@@ -347,13 +366,16 @@
                 nowTime.text(getTime(Math.floor(player.currentTime)));
                 progressNow.css("width",(parseInt(player.currentTime)/playTime*100).toFixed(0)+"%");
             }
+            //销毁初始化加载动画
             let loadHidden=function(){
                 $(".load").animate({
                     opacity:0
                 },1000,function(){
                     $(this).css("display","none"); 
                 });
+                loadHidden=null;
             }
+            //第一次加载完成的事件
             let loadSongList=function(songsList){
                 setSong(nowSong);
                 loadHidden();
@@ -361,11 +383,12 @@
             }
             //getSongById(53658493);
             let ul=$("#player-list>.player-list-songsList");
+            //第一次加载初始化
             if(localStorage.getItem("songsList")){
                 //getSongList(2029258023);
                 songsList=JSON.parse(localStorage.getItem("songsList"));
                 loadSongList(songsList);
-                createLi();
+                createLi(songsList);
             }else{
                 console.log("初始化")
                 getSongList(2029258023);
@@ -376,26 +399,30 @@
              */
             let playerToggle=$(".player-toggle"),
                 search=$('#player-search');
-            playerToggle.find(".player-list-icon").on("click",function(e){
-                console.log("aaa")
-                $('#player-list').css("left",0);
-                e.stopPropagation();
-            });
-            playerToggle.find(".player-search-icon").on("click",function(e){
-                search.toggleClass("card-rotate");
-                $('#player').toggleClass("card-rotate");
-                e.stopPropagation();
-            });
-            $("#player-list>.player-list-title>.player-icon-back").on("click",function(e){
-                $('#player-list').css("left","100%");
-                e.stopPropagation();
-            });
-            search.find(".player-icon-back").on("click",function(){
-                search.toggleClass("card-rotate");
-                $('#player').toggleClass("card-rotate");
-            });
+            (function(){
+                playerToggle.find(".player-list-icon").on("click",function(e){
+                    console.log("aaa")
+                    $('#player-list').css("left",0);
+                    e.stopPropagation();
+                });
+                playerToggle.find(".player-search-icon").on("click",function(e){
+                    search.toggleClass("card-rotate");
+                    $('#player').toggleClass("card-rotate");
+                    e.stopPropagation();
+                });
+                $("#player-list>.player-list-title>.player-icon-back").on("click",function(e){
+                    $('#player-list').css("left","100%");
+                    e.stopPropagation();
+                });
+                search.find(".player-icon-back").on("click",function(){
+                    search.toggleClass("card-rotate");
+                    $('#player').toggleClass("card-rotate");
+                });
+            })()
+            //播放列表
             let searchList=[],
-                info="";
+                info="",
+                searchLoad=$("#player-search>.player-search-container>.list-load-container");
             search.find(".player-search-button").on("click",function(e){
                 info=search.find("#searchContent").val().trim();
                 if(info==""){
@@ -403,7 +430,8 @@
                 }else{
                     let depend=search.find('input[name="search"]:checked ').val();
                     searchList=[];
-                    console.log(depend);
+                    searchLoad.removeClass("list-load-none");
+                    searchUl.children().remove();
                     switch(depend){
                         case "1":
                             getSongById(info,true);
@@ -418,7 +446,6 @@
                 }
                 e.stopPropagation();
             });
-            //播放列表
             ul.on("click",function(e){
                 let me=$(e.target);
                 let info=me.parent();
@@ -465,6 +492,81 @@
                     return ;
                 }       
             });
+            //搜索列表 搜歌名ID
+            function searchSong(event,_this){
+                let e=$(event.target);
+                if(e.attr("add")){
+                    let have=false;
+                    console.log(songsList);
+                    songsList.forEach(function(song){
+                        if(song.id==searchList[0].id){
+                            console.log("已经有这首歌了");
+                            alert("已经有这首歌了");
+                            have=true;
+                            return;
+                        }
+                    })
+                    if(have)return;
+                    songsList.push(searchList[0]);
+                    appendLi(searchList[0]);
+                    let __this=$(_this);
+                    searchAnimate(e,__this);
+                    localStorage.setItem('songsList', JSON.stringify(songsList));
+                }
+            }
+            //搜索列表 搜歌单ID
+            function searchSongsList(event,_this){
+                let e=$(event.target),
+                    __this=$(_this);
+                if(e.attr("add")){
+                    mysongs=searchList[0].tracks;
+                    let arr=songsList,
+                        obj={},
+                        potype;
+                    for(let i=0;songsList[i]!=null;i++){
+                        potype="a"+songsList[i].id;
+                        if(!obj[potype]){
+                            obj[potype]=true;
+                        }
+                    }
+                    for(let i=0;mysongs[i]!=null;i++){
+                        potype="a"+mysongs[i].id;
+                        if(!obj[potype]){
+                            obj[potype]=true;
+                            arr.push(mysongs[i])
+                        }
+                    }
+                    createLi(arr);
+                    arr=null;
+                    obj=null;
+                    potype=null;
+                    searchAnimate(e,__this);
+                }else if(e.attr("replace")){
+                    songsList=searchList[0].tracks;
+                    ul.children().remove();
+                    setSong(0);
+                    createLi(songsList);
+                    searchAnimate(e,__this);
+                }
+                localStorage.setItem('songsList', JSON.stringify(songsList));
+            }
+            //搜索列表 动画
+            function searchAnimate(e,__this){
+                e.animate({aa:"360"},{
+                    step:function(now,fx){
+                        e.css({"transform":"rotate("+now+"deg)"})
+                    },
+                    duration:300,
+                });
+                setTimeout(function(){
+                    __this.animate({
+                        "left":"-580px",
+                    },300,function(){
+                        __this.remove();
+                    }).queue();
+                },300);
+            }
+            //播放列表删除动画
             function removeLi(me,info){
                 me.addClass("player-rotate90");
                 setTimeout(function(){
@@ -475,6 +577,7 @@
                 },200);
             }
             let corverAnimate=null,corverDeg=0;
+            //封面旋转
             function corverRun(){
                 if(isRun){
                     if(corverDeg==360)corverDeg=0;
@@ -484,6 +587,7 @@
                 corverAnimate=requestAnimationFrame(corverRun);
             }
             corverRun();
+            //时间转换
             function getTime(s) {
                 let t="";
                 if(s > -1){
@@ -496,7 +600,8 @@
                 }
                 return t;
             }
-            function createLi(){
+            //初始化播放列表
+            function createLi(songsList){
                 let str="";
                 let id,name,singerName,playTime;
                 songsList.forEach(function(song){
@@ -512,7 +617,7 @@
                 });
                 ul.append(str);
             }
-            let searchUl=$("#player-search>.player-search-searchList");
+            //搜索列表
             function searchLi(isList=false,start=0,end=searchList.length){
                 let str="",song=null;
                 if(isList){
@@ -523,7 +628,7 @@
                         name=song.name;
                         trackCount=song.trackCount;
                         console.log(song);
-                        str+=`<li songId="${id}"><div class="player-list-song" songsId="${id}"><span title="${name}">${name}</span></div>
+                        str+=`<li onclick="searchSongsList(event,this)" songId="${id}"><div class="player-list-song" songsId="${id}"><span title="${name}">${name}</span></div>
                         <div class="player-list-count"><span title="${trackCount}首歌">${trackCount}首</span></div>
                         <div replace="true" class="player-search-replace"></div><div add="true" class="player-search-add"></div></li>`;
                     }
@@ -536,13 +641,14 @@
                         name=song.name,
                         singerId=song["artists"].id,
                         singerName=getSingerNames(song["artists"]),
-                        str+=`<li songId="${id}"><div class="player-list-song" songId="${id}"><span title="${name}">${name}</span></div>
+                        str+=`<li onclick="searchSong(event,this)" songId="${id}"><div class="player-list-song" songId="${id}"><span title="${name}">${name}</span></div>
                         <div class="player-list-singer" singerId="${singerId}"><span title="${singerName}">${singerName}</span></div>
-                        <div add="true" class="player-search-add"></div></li>`;
+                        <div add="true" class="player-search-add"  style="margin-left:2rem;"></div></li>`;
                     }
                 }
                 searchUl.append(str);
             }
+            //播放列表添加新项
             function appendLi(song){
                 let str="";
                 let id=song.id,
@@ -550,9 +656,10 @@
                     singerId=song["artists"].id,
                     singerName=getSingerNames(song["artists"]),
                     playTime=getTime(song.lMusic.playTime/1000);
-                    str+=`<li songId="${id}"><div class="player-list-song"><span songId="${id}" title="${name}">${name}</span></div>
-                    <div class="player-list-singer"><span singerId="${singerId}" title="${singerName}">${singerName}</span></div>
-                    <div class="player-list-playtime"><span songId="${id}" title="${playTime}">${playTime}</span></div></li>`;
+                    str+=`<li songId="${id}"><div class="player-list-song" songId="${id}"><span title="${name}">${name}</span></div>
+                    <div class="player-list-singer" singerId="${singerId}"><span title="${singerName}">${singerName}</span></div>
+                    <div class="player-list-playtime" songId="${id}" ><span title="${playTime}">${playTime}</span>
+                    </div><div removeMe="true" class="player-list-remove"></div></li>`;
                     ul.append(str);
             }
             //getSongById(419594013);

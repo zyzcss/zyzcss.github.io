@@ -268,7 +268,7 @@ body{
     padding: 0;
     color:white;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.6);
-    transition: left 0.55s;
+    transition: left 0.35s;
 }
 #player-list>.player-list-title{
     padding: 0;
@@ -350,6 +350,9 @@ body{
 }
 .player-list-playtime{
     width:4.5rem;
+}
+.player-list-count{
+    width:6.5rem;
 }
 #player-list>.player-list-songsList>li>.player-list-remove{
     width: 12px;
@@ -481,23 +484,19 @@ body{
     margin: auto;
     box-shadow: 0px 2px 2px rgba(255,255,255,0.8);
 }
-#player-search>.player-search-searchList{
+#player-search>.player-search-container{
+    height: 508px;
+    width: 100%;
+}
+#player-search .player-search-searchList{
     list-style: none;
     padding: 0;
     margin: 0;
     overflow: auto;
-    height: 508px;
+    height: 100%;
     overflow-x: hidden;
 }
-#player-search>.player-search-searchList>li>div{
-    overflow: hidden;
-    display: inline-block;
-    padding: 0 0.5rem;
-    box-sizing: border-box;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-#player-search>.player-search-searchList>li{
+#player-search .player-search-searchList>li{
     color:#eee;
     display: inline-block;
     width: 100%;
@@ -509,6 +508,30 @@ body{
     position: relative;
     left: 0;
     top:0;
+}
+#player-search .player-search-searchList>li>div{
+    overflow: hidden;
+    display: inline-block;
+    padding-left: 0.2rem;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#player-search .player-search-searchList>li>.player-search-add{
+    width:2.5rem;
+    height:100%;
+    background: url("../imgs/add.svg") no-repeat;
+    background-position: center;
+}
+#player-search .player-search-searchList>li>.player-search-replace{
+    width:70px;
+    height:100%;
+    zoom: 0.4;
+    margin-left: 1.5rem;
+    background: url("../imgs/toggle.svg") no-repeat;
+    background-position: center;
 }
 input::-webkit-input-placeholder{
     color: #fff;opacity:0.6;
@@ -658,3 +681,114 @@ button{
     color: #555;
 }
 
+.list-load-container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top:-100%;
+    z-index: 100;
+    background: rgba(255,255,255,0.4);
+}
+.list-load-none{
+    display: none;
+}
+.list-load-container>.list-load{
+    position: absolute;
+    width: 50px;
+    height:50px;
+    margin:auto;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.list-load-container>.list-load::before{
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    border-bottom-color:transparent;
+    border-top-color:transparent;
+    animation: loadRotate1 2.5s linear  infinite;
+}
+.list-load-container>.list-load::after{
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border: 3px solid #f55;
+    border-radius: 50%;
+    border-left-color:transparent;
+    border-right-color:transparent;
+    animation: loadRotate2 2.5s linear infinite;
+}
+@keyframes loadRotate1{
+    0%{
+        transform: scale(1) rotate(0deg);
+        border-color: #fff transparent;
+    }
+    12.5%{
+        border-color: #f55 transparent;
+    }
+    25%{
+        transform: scale(2) rotate(90deg);
+        border-color: #f55 transparent;
+    }
+    37.5%{
+        border-color: #fff transparent;
+    }
+    50%{
+        transform: scale(1) rotate(180deg);
+        border-color: #fff transparent;
+    }
+    62.5%{
+        border-color: #f55 transparent;
+    }
+    75%{
+        transform: scale(2) rotate(270deg);
+        border-color: #f55 transparent;
+    }
+    87.5%{
+        border-color: #fff transparent;
+    }
+    100%{
+        transform: scale(1) rotate(360deg);
+        border-color: #fff transparent;
+    }
+}
+@keyframes loadRotate2{
+    0%{
+        transform: scale(2) rotate(0deg);
+        border-color: transparent #f55 ;
+    }
+    12.5%{
+        border-color: transparent #fff ;
+    }
+    25%{
+        transform: scale(1) rotate(90deg);
+        border-color: transparent #fff ;
+    }
+    37.5%{
+        border-color: transparent #f55 ;
+    }
+    50%{
+        transform: scale(2) rotate(180deg);
+        border-color: transparent #f55 ;
+    }
+    62.5%{
+        border-color: transparent #fff ;
+    }
+    75%{
+        transform: scale(1) rotate(270deg);
+        border-color: transparent #fff ;
+    }
+    87.5%{
+        border-color: transparent #f55 ;
+    }
+    100%{
+        transform: scale(2) rotate(360deg);
+        border-color: transparent #f55 ;
+    }
+}
