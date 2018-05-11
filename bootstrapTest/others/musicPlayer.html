@@ -8,6 +8,7 @@
         <meta content="yes" name="apple-mobile-web-app-capable">     
         <meta content="black" name="apple-mobile-web-app-status-bar-style">     
         <meta content="telephone=no" name="format-detection">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <link href="./css/music.css" type="text/css" rel="stylesheet" >
     </head>
     <body>
@@ -38,7 +39,7 @@
                     </div>
                     <div class="player-controls-pre">
                     </div>
-                    <div class="player-controls-pause" >
+                    <div class="player-controls-pause player-controls-start" >
                     </div>
                     <div class="player-controls-next">
                     </div>
@@ -84,8 +85,7 @@
                 <div class="player-icon-back"></div>
             </div>
             <div class="player-search-hr"></div>
-            <ul class="player-search-searchList list-scroll">
-            </ul>
+            <ul class="player-search-searchList list-scroll"></ul>
         </div>
         <div class="load">
             <div id="wrap">
@@ -96,7 +96,7 @@
                 <p><strong>第一次加载请稍等...</strong></p>
             </div>
         </div>
-        <audio id="musicPlayer" autoplay>
+        <audio id="musicPlayer">
             不支持播放器，请跟换浏览器
         </audio>
         <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -120,16 +120,26 @@
                     }).appendTo("head");
                 }
             });
-            let player=$('#musicPlayer')[0],
+            let player=new Audio(""),
                 control=$(".player-controls"),
-                isStop=false,
+                isStop=true,
                 isNoSound=false,
                 timer=null,
                 corverImg=$('.player-corver>img'),
                 pause=control.find(".player-controls-pause"),
-                isRun=true;
+                isRun=false;
             //暂停开始事件
+            let onlyPlayOne=null,
+                playerOn=function(){
+                    pause.click();
+                },
+                ikk=[];
             pause.on("click",function(){
+                onlyPlayOne=function(){};
+                ikk.forEach(function(i){
+                    clearTimeout(i);
+                })
+                console.log("on");
                 if(isStop){
                     $(this).removeClass("player-controls-start")
                     player.play();
@@ -145,22 +155,29 @@
             });
             //上一首下一首
             control.find(".player-controls-pre").on("click",function(){
+                onlyPlayOne=playerOn;
                 if(nowSong>0){
                     setSong(--nowSong);
                 }else{
                     alert("没有上一首了");
                 }
                 isStop=true;
-                pause.click();
+                ikk.push(setTimeout(function(){
+                    onlyPlayOne();
+                },1000));
             });
             control.find(".player-controls-next").on("click",function(){
+                onlyPlayOne=playerOn;
                 if(nowSong<songsList.length-1){
                     setSong(++nowSong);
                 }else{
                     alert("没有下一首了");
                 }
                 isStop=true;
-                pause.click();
+                ikk.push(setTimeout(function(){
+                    onlyPlayOne();
+                },1000));
+                
             });
             //声音事件
             let icon=control.find('.player-sound-icon');
@@ -196,7 +213,7 @@
             //ajax接受歌曲信息
             let songInfo=$(".player-info").children(),
                 songCorver=$(".player-corver>img");
-            function getSongById(id){
+            function getSongById(id,isSearch){
                 $.ajax({    
                     url: 'http://query.yahooapis.com/v1/public/yql',    
                     dataType: 'jsonp',    
@@ -204,18 +221,27 @@
                         q: `select * from json where url=\"http://music.163.com/api/song/detail/?id=${id}&ids=%5B${id}%5D\"`,    
                         format: "json"    
                     },    
-                    success: function (data) { 
+                    success: function (data) {
                         let song=JSON.parse(JSON.stringify(data)).query.results["json"];
+                        //console.log(song)
                         if(song.code==200){
                             let info=song.songs;
-                            console.log(info)
-                            if(info){
-                                changeInfo(info);
+                            if(isSearch){
+                                if(info){
+                                    searchList.push(info);
+                                    console.log(searchList);
+                                    searchLi();
+                                }else{
+                                    alert("没有查询到相关歌曲");
+                                    console.log("没有查询到相关歌曲");
+                                }
                             }else{
-                                alert("该歌曲付费 暂时不能听");
-                                loadHidden();
-                            }
-                            
+                                if(info){
+                                    songsList.push(info);
+                                }else{
+                                    alert("该歌曲付费 暂时不能听");
+                                } 
+                            }    
                         }else{
                             alert("服务器繁忙 请稍后再试");
                             console.log("服务器繁忙");
@@ -232,7 +258,7 @@
             let songsList=[],
                 nowSong=0,
                 songsListInfo=$(".songsListInfo");
-            function getSongList(id){
+            function getSongList(id,isSearch){
                 $.ajax({    
                     url: 'http://query.yahooapis.com/v1/public/yql',    
                     dataType: 'jsonp',    
@@ -242,19 +268,28 @@
                     },    
                     success: function (data) { 
                         let result=JSON.parse(JSON.stringify(data)).query.results["json"];
+                        console.log(result)
                         if(result.code==200){
-                            songsList=result.result.tracks;
-                            localStorage.setItem('songsList', JSON.stringify(songsList));
-                            loadSongList();
+                            if(isSearch){
+                                searchList.push(result.result);
+                                console.log(searchList)
+                                searchLi(true);
+                            }else{
+                                songsList=result.result.tracks;
+                                console.log(songsList);
+                                localStorage.setItem('songsList', JSON.stringify(songsList));
+                                loadSongList(songsList);
+                                createLi();
+                            }
                         }else{
-                            alert("服务器繁忙 请稍后再试");
-                            console.log("服务器繁忙");
+                            alert("查找失败 请确定输入的歌单是否存在");
+                            console.log("查找失败");
                         }
                     },
                     error:function(error){
                         console.log(error);
-                        alert("加载失败 请确定歌单是否存在");
-                    }    
+                        alert("服务器繁忙 稍后尝试");
+                    }
                 });
             }
             //设置歌曲信息
@@ -282,7 +317,6 @@
             //更改歌曲信息
             let playTime=0;
             function changeInfo(playerSong){
-                player.src=null;
                 songCorver.attr("src",playerSong["album"].picUrl+"?param=200y200");
                 songInfo[0].innerText=playerSong.name;
                 songInfo[2].innerText=playerSong["album"].name;
@@ -326,19 +360,24 @@
                 timer=setInterval(setTimeText,1000);
             }
             //getSongById(53658493);
+            let ul=$("#player-list>.player-list-songsList");
             if(localStorage.getItem("songsList")){
+                //getSongList(2029258023);
                 songsList=JSON.parse(localStorage.getItem("songsList"));
                 loadSongList(songsList);
+                createLi();
             }else{
-                console.log("error")
+                console.log("初始化")
                 getSongList(2029258023);
             }
+            $('body')[0].append(player);
             /* 
                 右上角的图标点击          
              */
             let playerToggle=$(".player-toggle"),
                 search=$('#player-search');
             playerToggle.find(".player-list-icon").on("click",function(e){
+                console.log("aaa")
                 $('#player-list').css("left",0);
                 e.stopPropagation();
             });
@@ -356,34 +395,30 @@
                 $('#player').toggleClass("card-rotate");
             });
             let searchList=[],
-                info="",
-                offset=0;
+                info="";
             search.find(".player-search-button").on("click",function(e){
                 info=search.find("#searchContent").val().trim();
                 if(info==""){
                     alert("请输入内容");
                 }else{
+                    let depend=search.find('input[name="search"]:checked ').val();
                     searchList=[];
-                    offset=0;
-                    getSearchList(info,offset);
+                    console.log(depend);
+                    switch(depend){
+                        case "1":
+                            getSongById(info,true);
+                            break;
+                        case "2":
+                            getSongList(info,true);
+                            break;
+                        case "3":
+                            alert("暂不支持");
+                            break; 
+                    }
                 }
                 e.stopPropagation();
             });
-            function getSearchList(info,offset){
-                $.ajax({  
-                    type: 'post',  
-                    crossDomain: true,  
-                    url: 'http://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s=hello&type=1&offset=0&total=true&limit=15',  
-                    dataType:'json',  
-                    xhrFields: {  
-                        'Access-Control-Allow-Origin': '*'
-                    },  
-                    success: function(data, textStatus, jqXHR){  
-                        console.log(data);
-                    }  
-                });  
-            }
-            let ul=$("#player-list>.player-list-songsList");
+            //播放列表
             ul.on("click",function(e){
                 let me=$(e.target);
                 let info=me.parent();
@@ -478,18 +513,33 @@
                 ul.append(str);
             }
             let searchUl=$("#player-search>.player-search-searchList");
-            function searchLi(){
+            function searchLi(isList=false,start=0,end=searchList.length){
                 let str="",song=null;
-                let id,name,singerName,playTime;
-                for(let i=offset*15;i<(offset+1)*15;i++){
-                    song=searchList[i];
-                    id=song.id,
-                    name=song.name,
-                    singerId=song["artists"].id,
-                    singerName=getSingerNames(song["artists"]),
-                    str+=`<li songId="${id}"><div class="player-list-song" songId="${id}"><span title="${name}">${name}</span></div>
-                    <div class="player-list-singer" singerId="${singerId}"><span title="${singerName}">${singerName}</span></div>
-                    <div add="true" class="player-search-add"></div></li>`;
+                if(isList){
+                    let id,name,trackCount;
+                    for(let i=start;i<end;i++){
+                        song=searchList[i];
+                        id=song.id;
+                        name=song.name;
+                        trackCount=song.trackCount;
+                        console.log(song);
+                        str+=`<li songId="${id}"><div class="player-list-song" songsId="${id}"><span title="${name}">${name}</span></div>
+                        <div class="player-list-count"><span title="${trackCount}首歌">${trackCount}首</span></div>
+                        <div replace="true" class="player-search-replace"></div><div add="true" class="player-search-add"></div></li>`;
+                    }
+                }else{
+                    let id,name,singerName,playTime;
+                    for(let i=start;i<end;i++){
+                        console.log("i",i)
+                        song=searchList[i];
+                        id=song.id,
+                        name=song.name,
+                        singerId=song["artists"].id,
+                        singerName=getSingerNames(song["artists"]),
+                        str+=`<li songId="${id}"><div class="player-list-song" songId="${id}"><span title="${name}">${name}</span></div>
+                        <div class="player-list-singer" singerId="${singerId}"><span title="${singerName}">${singerName}</span></div>
+                        <div add="true" class="player-search-add"></div></li>`;
+                    }
                 }
                 searchUl.append(str);
             }
@@ -505,7 +555,7 @@
                     <div class="player-list-playtime"><span songId="${id}" title="${playTime}">${playTime}</span></div></li>`;
                     ul.append(str);
             }
-            createLi();
+            //getSongById(419594013);
         </script>
     </body>
 </html>
