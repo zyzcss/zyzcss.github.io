@@ -59,7 +59,8 @@ soundManager.setup({
 if(!IsPC){
     console.log("mobie");
     progress.on("touchstart",function(e){
-        if(player.playState==0){
+        alert("手机端进度条有BUG！");
+        /* if(player.playState==0){
             alert("请先播放");
         }else{
             let ex=parseInt(e.originalEvent.changedTouches[0].clientX-25),
@@ -72,7 +73,7 @@ if(!IsPC){
                 player.setPosition(p);
                 setTimeText();
             }
-        }
+        } */
     });
     pause.on("click",function(){
         if(isStop){
@@ -103,7 +104,7 @@ if(!IsPC){
         };
         setTimeout(function(){
             choose=preOrnext;
-        },3000);
+        },1000);
         if(i){
             if(--nowSong<0){
                 alert("没有上一首了");
@@ -118,9 +119,18 @@ if(!IsPC){
                 return;
             }
         }
+        player.pause();
+        player=null;
+        player=soundManager.createSound({
+            id: 'player',  
+            autoLoad: true,  
+            autoPlay: false,  
+            url:"http://music.163.com/song/media/outer/url?id="+songsList[nowSong].id+".mp3"
+        });
         isStop=true;
         setTimeText();
         setSong(nowSong);
+        pause.click();
     }
 }else{
     console.log("pc")
@@ -355,9 +365,9 @@ let swapsong=songCantPlay;
 let setTimeText=function(){
     nowTime.text(getTime(Math.floor(player.position/1000)));
     progressNow.css("width",(parseInt(player.position)/playTime*100).toFixed(0)+"%");
-    /* if(player.readyState==2){
+    if(player.readyState==2){
         swapsong();
-     }  */
+     } 
     if(player.position+1500>playTime){
         nexx();
         player.setPosition(0);
@@ -487,10 +497,18 @@ ul.on("click",function(e){
         let songid=info.attr("songid");
         for(let i in songsList){
             if(songsList[i].id==songid){
+                player=soundManager.createSound({
+                    id: 'player',  
+                    autoLoad: true,  
+                    autoPlay: false,  
+                    url:"http://music.163.com/song/media/outer/url?id="+songsList[i].id+".mp3"
+                });
                 isStop=true;
                 nowSong=i;
                 setSong(i);
-                pause.click();
+                setTimeout(function(){
+                    pause.click();
+                },500);
                 $('#player-list').css("left","100%");
                 return ;
             }
