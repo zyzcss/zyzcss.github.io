@@ -1,27 +1,19 @@
-/* 设置时间 */
-let time=$(".player-time>.player-end"),
-    nowTime=$(".player-time>.player-start"),
-    progress=$(".player-time>.player-progress"),
-    progressNow=progress.find(".player-progress-now"),
-    progressWidth=parseInt(progress.css("width")),
-    IsPC=function () {
-    let userAgentInfo = navigator.userAgent;
-    let Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", 
-    "iPod"];    //常用的手机系统版本
-    let flag = true;    //建立标志
-    for (let v = 0; v < Agents.length; v++) {
-        if (userAgentInfo.indexOf(Agents[v]) > 0) {
-            flag = false;    //如果是手机版本返回false
-            break;
+progress.on("touchstart",function(e){
+    if(player.playState==0){
+        alert("请先播放");
+    }else{
+        let ex=parseInt(e.originalEvent.changedTouches[0].clientX-25),
+            wid=ex/progressWidth;
+        if(wid>Math.floor(player.bytesLoaded*100)/100){
+            alert("选择的进度在加载");
+        }else{
+            let time=Math.floor(wid*playTime);
+            console.log(time)
+            player.setPosition(Math.floor(ex/progressWidth*playTime));
+            setTimeText();
         }
     }
-    return flag;
-    }
-IsPC=IsPC();
-if(!IsPC){
-    $("<link>").attr({ rel: "stylesheet",type: "text/css",href: "./css/mobie.css"
-    }).appendTo("head");
-}
+});
 let player,
     control=$(".player-controls"),
     isStop=true,
@@ -31,172 +23,84 @@ let player,
     pause=control.find(".player-controls-pause"),
     isRun=false,
     nowSong=0,
-    searchUl=$("#player-search .player-search-searchList"),
-    songsList=[],
-    songsListInfo=$(".songsListInfo");;
-soundManager.setup({  
-    onready: function() {  
-        player=soundManager.createSound({  
-            id: 'player',  
-            autoLoad: true,  
-            autoPlay: true,  
-            url:""
-        });  
-        if(localStorage.getItem("songsList")){
-            songsList=JSON.parse(localStorage.getItem("songsList"));
-            loadSongList(songsList);
-            createLi(songsList);
-        }else{
-            console.log("初始化");
-            getSongList(2029258023);
-        }
-    },
-    error:function(){
-        console.log("错了！")
-    }
-});
-
-if(!IsPC){
-    console.log("mobie");
-    progress.on("touchstart",function(e){
-        if(player.playState==0){
-            alert("请先播放");
-        }else{
-            let ex=parseInt(e.originalEvent.changedTouches[0].clientX-25),
-                wid=ex/parseInt(progress.css("width"));
-            if(wid>player.bytesLoaded||wid>0.9){
-                alert("选择的进度在加载");
+    searchUl=$("#player-search .player-search-searchList");
+    soundManager.setup({  
+        onready: function() {  
+            player=soundManager.createSound({  
+                id: 'player',  
+                autoLoad: true,  
+                autoPlay: false,  
+                url:""
+            });  
+            if(localStorage.getItem("songsList")){
+                songsList=JSON.parse(localStorage.getItem("songsList"));
+                loadSongList(songsList);
+                createLi(songsList);
             }else{
-                let time=Math.floor(wid*playTime);
-                let p=Math.floor(ex/progressWidth*playTime);
-                player.setPosition(p);
-                setTimeText();
+                console.log("初始化");
+                getSongList(2029258023);
             }
-        }
-    });
-    pause.on("click",function(){
-        if(isStop){
-            $(this).removeClass("player-controls-start");
-            console.log(player)
-            player.play();
-            timer=setInterval(setTimeText,1000);
-            isRun=true;
-        }else{
-            $(this).addClass("player-controls-start");
-            player.pause();
-            clearInterval(timer);
-            isRun=false;
-        }
-        isStop=!isStop;
-    });
-    let choose=preOrnext;
-    /* 上一首下一首 */
-    control.find(".player-controls-pre").on("click",function(){
-        choose(1)
-    });
-    control.find(".player-controls-next").on("click",function(){
-        choose(0)
-    });
-    function preOrnext(i){
-        choose=function(){
-            alert("请勿频繁点击");
-        };
-        setTimeout(function(){
-            choose=preOrnext;
-        },3000);
-        if(i){
-            if(--nowSong<0){
-                alert("没有上一首了");
-                nowSong++;
-                return;
-            }
-        }else{
-            console.log("结束了")
-            if(++nowSong>songsList.length-1){
-                alert("没有下一首了");
-                nowSong--;
-                return;
-            }
-        }
-        isStop=true;
-        setTimeText();
-        setSong(nowSong);
-    }
-}else{
-    console.log("pc")
-    progress.on("click",function(e){
-        if(player.playState==0){
-            alert("请先播放");
-        }else{
-            let wid=e.offsetX/progressWidth;
-            if(wid>Math.floor(player.bytesLoaded*100)/100){
-                alert("选择的进度在加载");
-            }else{
-                let time=Math.floor(wid*playTime);
-                player.setPosition(Math.floor(e.offsetX/progressWidth*playTime));
-                setTimeText();
-            }
-        }
-    });
-    pause.on("click",function(){
-        onlyPlayOne=function(){};
-        ikk=null;
-        if(isStop){
-            $(this).removeClass("player-controls-start");
-            soundManager.play('player',{
-                onfinish:function(){
-                    setTimeText();
-                    console.log("结束了1")
-                    control.find(".player-controls-next").click();
-                },
-                error:function(code,dis){
-                    console.log(code,dis)
-                }
-            });
-            timer=setInterval(setTimeText,1000);
-            isRun=true;
-        }else{
-            $(this).addClass("player-controls-start");
-            player.pause();
-            clearInterval(timer);
-            isRun=false;
-        }
-        isStop=!isStop;
-    });
-    /* 暂停开始事件 采用setTimeout完成队列防止多次使用 */
-    let onlyPlayOne=null,
-        playerOn=function(){
-            pause.click();
         },
-        ikk=null;
-    /* 上一首下一首 */
-    control.find(".player-controls-pre").on("click",function(){
-        if(--nowSong<0){
-            alert("没有上一首了");
-            nowSong++;
-            return;
+        error:function(){
+            console.log("错了！")
         }
-        preOrnext();
     });
-    control.find(".player-controls-next").on("click",function(){
-        console.log("结束了")
-        if(++nowSong>songsList.length-1){
-            alert("没有下一首了");
-            nowSong--;
-            return;
-        }
-        preOrnext();
-    });
-    function preOrnext(){
-        isStop=true;
-        setTimeText();
-        onlyPlayOne=playerOn;
-        setSong(nowSong);
-        if(ikk)clearTimeout(ikk);
-        ikk=setTimeout(function(){
-            onlyPlayOne();
-        },500);
+/* 暂停开始事件 采用setTimeout完成队列防止多次使用 */
+let onlyPlayOne=null,
+    playerOn=function(){
+        pause.click();
+    },
+    ikk=null;
+pause.on("click",function(){
+    onlyPlayOne=function(){};
+    ikk=null;
+    if(isStop){
+        $(this).removeClass("player-controls-start");
+        soundManager.play('player',{
+            onfinish:function(){
+                setTimeText();
+                control.find(".player-controls-next").click();
+            },
+            error:function(code,dis){
+                console.log(code,dis)
+            }
+        });
+        timer=setInterval(setTimeText,1000);
+        isRun=true;
+    }else{
+        $(this).addClass("player-controls-start");
+        player.pause();
+        clearInterval(timer);
+        isRun=false;
     }
+    isStop=!isStop;
+});
+/* 上一首下一首 */
+control.find(".player-controls-pre").on("click",function(){
+    if(--nowSong<0){
+        alert("没有上一首了");
+        nowSong++;
+        return;
+    }
+    preOrnext();
+});
+control.find(".player-controls-next").on("click",function(){
+    if(++nowSong>songsList.length-1){
+        alert("没有下一首了");
+        nowSong--;
+        return;
+    }
+    preOrnext();
+});
+function preOrnext(){
+    isStop=true;
+    setTimeText();
+    onlyPlayOne=playerOn;
+    setSong(nowSong);
+    if(ikk)clearTimeout(ikk);
+    ikk=setTimeout(function(){
+        onlyPlayOne();
+    },500);
 }
 /* 声音事件 */
 let icon=control.find('.player-sound-icon');
@@ -276,6 +180,8 @@ function getSongById(id,isSearch){
     });  
 }
 /* 获得歌单列表 */
+let songsList=[],
+    songsListInfo=$(".songsListInfo");
 function getSongList(id,isSearch){
     $.ajax({    
         url: 'http://query.yahooapis.com/v1/public/yql',    
@@ -322,9 +228,16 @@ function setSong(num){
         alert("歌曲出错啦");
     }
 }
+/* 设置时间 */
+let time=$(".player-time>.player-end"),
+    nowTime=$(".player-time>.player-start"),
+    progress=$(".player-time>.player-progress"),
+    progressNow=progress.find(".player-progress-now"),
+    progressWidth=parseInt(progress.css("width"));
+
 /* 更改歌曲信息 */
 let playTime=0;
-function changeInfo(playerSong){
+function changeInfo(playerSong,num){
     console.log("切歌",playerSong);
     songCorver.attr("src",playerSong["album"].picUrl+"?param=200y200");
     songInfo[0].innerText=playerSong.name;
@@ -333,8 +246,8 @@ function changeInfo(playerSong){
     time.text(getTime(playTime/1000));
     let singers=playerSong["artists"];
     songInfo[1].innerText=getSingerNames(singers);
-    //soundManager.load({url:`http://music.163.com/song/media/outer/url?id=${playerSong.id}.mp3`});
-    player.load({url:`http://music.163.com/song/media/outer/url?id=${playerSong.id}.mp3`});
+    soundManager.load({url:`http://music.163.com/song/media/outer/url?id=${playerSong.id}.mp3`});
+   // player.load({url:`http://music.163.com/song/media/outer/url?id=${playerSong.id}.mp3`});
 } 
 function getSingerNames(singers){
     let singersName=null;
@@ -350,34 +263,13 @@ function getSingerNames(singers){
     return singersName;
 }
 /* 播放时间00:00变化 */
-let nexx=nextOne;
 let swapsong=songCantPlay;
 let setTimeText=function(){
     nowTime.text(getTime(Math.floor(player.position/1000)));
     progressNow.css("width",(parseInt(player.position)/playTime*100).toFixed(0)+"%");
     /* if(player.readyState==2){
         swapsong();
-     }  */
-    if(player.position+1500>playTime){
-        nexx();
-        player.setPosition(0);
-    }
-}
-
-function nextOne(){
-    nexx=function(){}
-    player.setPosition(1);
-    pause.addClass("player-controls-start");
-    player.pause();
-    console.log("end");
-    isStop=false;
-    isRun=false;
-    nowSong++;
-    setTimeText();
-    setSong(nowSong);
-    setTimeout(function(){
-        nexx=nextOne;
-    },5000);
+     } */
 }
 /* 歌曲不能听的情况下 下一首 */
 function songCantPlay(){
