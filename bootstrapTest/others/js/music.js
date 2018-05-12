@@ -447,6 +447,7 @@ function searchSongsList(event,_this){
 }
 /* 搜索列表 动画 */
 function searchAnimate(e,__this){
+    console.log("ani");
     e.animate({aa:"360"},{
         step:function(now,fx){
             e.css({"transform":"rotate("+now+"deg)"});
