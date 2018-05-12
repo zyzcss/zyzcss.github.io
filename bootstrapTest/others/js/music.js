@@ -279,9 +279,9 @@ let swapsong=songCantPlay;
 let setTimeText=function(){
     nowTime.text(getTime(Math.floor(player.position/1000)));
     progressNow.css("width",(parseInt(player.position)/playTime*100).toFixed(0)+"%");
-    if(player.readyState==2){
+    /* if(player.readyState==2){
         swapsong();
-     }
+     } */
 }
 /* 歌曲不能听的情况下 下一首 */
 function songCantPlay(){
