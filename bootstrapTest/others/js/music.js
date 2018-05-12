@@ -279,8 +279,7 @@ let swapsong=songCantPlay;
 let setTimeText=function(){
     nowTime.text(getTime(Math.floor(player.position/1000)));
     progressNow.css("width",(parseInt(player.position)/playTime*100).toFixed(0)+"%");
-    console.log(player.readyState);
-    if(player.readyState==2){
+    if(player.readyState==2&&IsPC()){
         swapsong();
      }
 }
