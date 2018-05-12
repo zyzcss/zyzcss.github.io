@@ -89,8 +89,8 @@
     html{font-size:16px;}
 }
 #player-list>ul.player-list-songsList{
-    height: calc(100vh - 40px);
+    height: calc(100vh - 60px);
 }
 #player-search>ul.player-search-container{
-    height: calc(100vh - 50px);
+    height: calc(100vh - 60px);
 }
