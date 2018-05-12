@@ -1,0 +1,50 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script src="./js/soundmanager2.js"></script>
+        <script>
+        let audio;
+        soundManager.setup({  
+            onready: function() {  
+                audio=soundManager.createSound({  
+                    id: 'audio',  
+                    autoLoad: true,  
+                    autoPlay: true,  
+                    url: 'http://music.163.com/song/media/outer/url?id=213737.mp3',
+                });  
+                setTimeout(() => {
+                    audio.load({volume:50,url:"http://music.163.com/song/media/outer/url?id=460043704.mp3"});
+                    audio.play();
+                    audio.setVolume(10);
+                    console.log(audio)
+                }, 4000);
+            }  
+        });
+        let player,
+                control=$(".player-controls"),
+                isStop=true,
+                isNoSound=false,
+                timer=null,
+                corverImg=$('.player-corver>img'),
+                pause=control.find(".player-controls-pause"),
+                isRun=false,
+                nowSong=0,
+                searchUl=$("#player-search .player-search-searchList");;
+                let audio;
+            function firstLoadPlayer(url){
+                soundManager.setup({  
+                    onready: function() {  
+                        player=soundManager.createSound({  
+                            id: 'player',  
+                            autoLoad: true,  
+                            autoPlay: false,  
+                            url: url,
+                        });  
+                    }  
+                });
+            }
+        </script>
+    </body>
+</html>
