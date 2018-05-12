@@ -60,6 +60,9 @@ pause.on("click",function(){
             onfinish:function(){
                 setTimeText();
                 control.find(".player-controls-next").click();
+            },
+            error:function(code,dis){
+                console.log(code,dis)
             }
         });
         timer=setInterval(setTimeText,1000);
@@ -146,7 +149,7 @@ function getSongById(id,isSearch){
             if(song.code==200){
                 let info=song.songs;
                 if(isSearch){
-                    if(info){
+                    if(info&&info.name!="null"){
                         searchList.push(info);
                         console.log(searchList);
                         searchLi();
@@ -168,12 +171,12 @@ function getSongById(id,isSearch){
             }
         },
         error:function(error){
-            console.log(error);
             if(isSearch){
                 searchLoad.addClass("list-load-none");
             }
-            alert("加载失败 请确定歌曲是否存在");
-        }    
+            alert("加载失败 1.请确定歌曲是否存在2.雅虎抽风了");
+        },
+        timeout:15000   
     });  
 }
 /* 获得歌单列表 */
@@ -209,8 +212,7 @@ function getSongList(id,isSearch){
             }
         },
         error:function(error){
-            console.log(error);
-            alert("服务器繁忙 稍后尝试");
+            alert("雅虎抽风了 请稍后再试");
             if(isSearch){
                 searchLoad.addClass("list-load-none");
             }
@@ -221,7 +223,7 @@ function getSongList(id,isSearch){
 function setSong(num){
     let playerSong=songsList[num];
     if(playerSong){
-        changeInfo(playerSong);
+        changeInfo(playerSong,num);
     }else{
         alert("歌曲出错啦");
     }
@@ -248,8 +250,8 @@ progress.on("click",function(e){
 });
 /* 更改歌曲信息 */
 let playTime=0;
-function changeInfo(playerSong){
-    console.log("切歌");
+function changeInfo(playerSong,num){
+    console.log("切歌",playerSong);
     songCorver.attr("src",playerSong["album"].picUrl+"?param=200y200");
     songInfo[0].innerText=playerSong.name;
     songInfo[2].innerText=playerSong["album"].name;
@@ -273,9 +275,29 @@ function getSingerNames(singers){
     return singersName;
 }
 /* 播放时间00:00变化 */
+let swapsong=songCantPlay;
 let setTimeText=function(){
     nowTime.text(getTime(Math.floor(player.position/1000)));
     progressNow.css("width",(parseInt(player.position)/playTime*100).toFixed(0)+"%");
+    console.log(player.readyState);
+    if(player.readyState==2){
+        swapsong();
+     }
+}
+/* 歌曲不能听的情况下 下一首 */
+function songCantPlay(){
+    swapsong=function(){}
+    alert("该歌曲已下架或付费专属");
+    songsList.splice(nowSong,1);
+    ul.children().eq(nowSong).remove();
+    if(nowSong>songsList.length-1){
+        nowSong--;
+    }
+    changeInfo(songsList[nowSong]);
+    localStorage.setItem('songsList', JSON.stringify(songsList));
+    isStop=true;
+    pause.click();
+    swapsong=songCantPlay;
 }
 /* 销毁初始化加载动画 */
 let loadHidden=function(){
@@ -317,7 +339,6 @@ let playerToggle=$(".player-toggle"),
         $('#player').toggleClass("card-rotate");
     });
 })();
-/* 播放列表 */
 let searchList=[],
     info="",
     searchLoad=$("#player-search>.player-search-container>.list-load-container");
