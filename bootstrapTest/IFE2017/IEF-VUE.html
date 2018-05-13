@@ -21,15 +21,25 @@
 	</style>
 </head>
 <body>
+	自定义checkbox样式
 	<label>
 		<input type="checkbox">
 		<span class="checkbox"></span>
 	</label>
+	<h4>原内容</h4>
+	<div id="box">
+
+	</div>
+	<h4>替换后的内容</h4>
 	<div id="app">
 	    <p>姓名：{{user.name}}</p>
 	    <p>年龄：{{user.age}}</p>
 	</div>
+	<div id="box">
+
+	</div>
 	<script type="text/javascript">
+	document.getElementById("box").innerHTML=document.getElementById("app").innerHTML;
 		function Vue(obj){
 			this.render(obj)
 		}
