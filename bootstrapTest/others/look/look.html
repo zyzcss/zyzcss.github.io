@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>表情包生成器</title>
+	<style type="text/css">
+		input[type=range]{
+			width: 350px;
+			-webkit-appearance: none; 
+			background: #446;
+			border-radius: 10px;
+			margin-left: 40px;
+			cursor: pointer;
+			box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112;
+
+		}
+		input[type=range]:focus {
+		    outline: none;
+		}
+		input[type=range]::-webkit-slider-thumb {
+		    -webkit-appearance: none;
+		    cursor: pointer;
+		    height: 25px;
+		    width: 25px;
+		    margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+		    background: #ffffff; 
+		    border-radius: 50%; /*外观设置为圆形*/
+		    border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+		    box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+		}
+		.main{
+			width: 450px;
+			height: 450px;
+			margin: 0 auto;
+		}
+		#myCamvas{
+			border:1px solid #d3d3d3;
+		}
+		#save{
+			float: right;
+			width: 60px;
+			height: 20px;
+			background: #446;
+			cursor: pointer;
+			text-align: center;
+			color: white;
+			margin-top: 8px;
+			margin-right: 5px;
+			border-radius:8px;
+		}
+		.upload{
+			opacity: 0;
+			float: right;
+			width: 120px;
+			height: 20px;
+			cursor: pointer;
+			margin-top:-22px;
+			margin-right: 5px;
+			border-radius:8px;
+		}
+		#upload{
+			float: right;
+			width: 120px;
+			height: 20px;
+			background: #446;
+			cursor: pointer;
+			text-align: center;
+			color: white;
+			margin-top:-22px;
+			margin-right: 5px;
+			border-radius:8px;
+		}
+		#change{
+			float: right;
+			width: 60px;
+			height: 20px;
+			background: #446;
+			cursor: pointer;
+			text-align: center;
+			color: white;
+			margin-top: 8px;
+			margin-right: 5px;
+			border-radius:8px;
+		}
+		#myValue{
+			font-size:20px;
+			width: 300px;
+			height:50px;
+		}
+		input[type=color]{
+			position: absolute;
+			margin-left:-50px;
+		}
+		#reload{
+			width: 30px;
+			height: 30px;
+			position: absolute;
+			top: 20px;
+			margin-left: 400px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<img src="reload.png" id="reload">
+		<canvas id="myCanvas" width="450" height="450" ></canvas>
+	<textarea id="myValue" >你好</textarea>
+	<a href="#" id="down" download="myimg">
+		<div id="save">保存</div>
+	</a>
+	<div id="change">更改</div>
+	<div id="upload">上传</div>
+	<input type="file" class="upload" accept="image/gif, image/jpeg ,image/png" />  
+	</div>
+	<div style="position:relative;width: 350px;margin: 70px auto;">
+		<input type="color" value="#ffffff" id="colors"/>
+		<input type="range" onmousedown="sChange(this)" onmouseup="eChange(this)" id="points" min="0" max="380" value="0"/>
+	</div>
+	
+<script type="text/javascript">
+	const c=document.getElementById("myCanvas");
+	const reload=document.getElementById("reload");
+	const ctx=c.getContext("2d");
+	const img=new Image();
+	var deg=0;
+	var load;
+	var srcs=["img.jpg","01.jpg","02.jpg","03.jpg","04.jpg","05.jpg"];
+	img.crossOrigin = "Anonymous";
+	const Cavans={
+		val:"你好",
+		fontPos:60,
+		src:srcs[0],
+		color:"#fff",
+	}
+	function changeCanvas(Cavans){
+		img.src=Cavans.src;
+		img.onload = function() {
+			ctx.fillStyle=Cavans.color;
+			ctx.font="60px 黑体";
+			ctx.drawImage(img,0,0,c.width,c.height);
+			if(Cavans.val.indexOf("\n")>-1){
+				let str=Cavans.val.split("\n");
+				for(let i=0;i<str.length;i++){
+					ctx.fillText(str[i],getX(str[i]),Cavans.fontPos+i*60);
+				}
+			}else{
+				ctx.fillText(Cavans.val,getX(Cavans.val),Cavans.fontPos);
+			}
+		} 	
+	}
+	function getX(val){
+		let ocn=val.match(/[\u4E00-\u9FA5]/g);
+		let cn=ocn!=null?ocn.length:0;
+		let en=val.length-cn;
+		return (450-en*30-cn*60)/2;
+	}
+	document.getElementById("points").addEventListener("change",function(){
+		Cavans.fontPos=parseInt(this.value)+60;
+		console.log(Cavans.fontPos);
+        changeCanvas(Cavans);
+	});
+	document.getElementById("change").addEventListener("click",function(){
+		Cavans.val=document.getElementById("myValue").value;
+		changeCanvas(Cavans);
+	});
+	document.getElementById("save").addEventListener("click",function(){
+		let down=document.getElementById("down");
+		down.setAttribute("href",c.toDataURL("image/png"));
+	});
+	document.getElementById("colors").addEventListener("change",function(){
+		Cavans.color=this.value;
+		changeCanvas(Cavans);
+	});
+	document.getElementsByClassName("upload")[0].addEventListener("change",function(){
+		var fr = new FileReader();//创建new FileReader()对象  
+        var imgObj = this.files[0];//获取图片  
+        fr.readAsDataURL(imgObj);//将图片读取为DataURL  
+        fr.onload = function() {  
+	       srcs[6]=this.result;
+	       Cavans.src=srcs[6];
+   		   changeCanvas(Cavans);
+       }; 
+	});
+	document.getElementById("reload").addEventListener("click",function(){
+		if(deg!=0){
+			clearInterval(load);
+			reload.style.transform="rotate(0deg)";
+		};
+		deg=0;
+		load=setInterval(function(){
+			if(deg<=350){
+				deg=deg+20;
+				reload.style.transform="rotate("+deg+"deg)";
+			}else{
+				clearInterval(load);
+			}
+		},50)
+		for(var i=0;i<srcs.length;i++){
+			if(Cavans.src==srcs[i]){
+				srcs.length==i+1?Cavans.src=srcs[0]:Cavans.src=srcs[parseInt(i)+1];
+				break;
+			}
+		}
+		changeCanvas(Cavans);
+	});
+	
+	var flag;
+	function sChange(e){
+		flag = setInterval(function(){
+			change(e)
+		},50)
+	}
+
+	function eChange(){
+		clearInterval(flag);
+	}
+
+	function change(e){
+		Cavans.fontPos=parseInt(e.value)+60;
+		changeCanvas(Cavans);
+	}
+
+	document.getElementById("colors").addEventListener("onchange",function(){
+		Cavans.color=this.value;
+		changeCanvas(Cavans);
+	});
+	changeCanvas(Cavans);
+</script>
+</body>
+</html>

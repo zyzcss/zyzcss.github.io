@@ -4,19 +4,11 @@
 	<title></title>
 </head>
 <body>
-	<div id="box"></div>
-	<button>aa</button>
-	<button>aa</button>
-	<button>aa</button>
+	<div id="container"></div>
+	<script src="ball_animate.js"></script>
 	<script type="text/javascript">
+	ballRun();
 			//app.data.basicInfo.age = 20;
-	var b=document.getElementsByTagName('button');
-	for(let i=0;i<=b.length;i++){
-		b[i].onclick=function(){
-			alert(i);//弹窗全是5 用let定义则0-4
-		}
-		//var可以使用闭包传参(function(i){})(i)	
-}
 	/*
 		为每一个对象绑定一个path和监听器，对对象的每个属性都绑定一个get set
 		触发get set时一并触发父类的监听器 
@@ -158,7 +150,19 @@
 		console.log("firstName发生了变化");
 	})
 	app.data.name.firstName={a:1}
+	document.getElementById("container").innerHTML=`
+	可以在控制台改变app的data属性 类似<br/>
+	app.data.name.firstName={a:2}<br/>
+	可以实现除了数组的监听，使用了观察者模式和监听发布模式<br/>
+	let app = new Observer({<br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;name: {<br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;firstName: 'shaofeng',<br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;lastName: 'liang'<br/>
+	&nbsp;&nbsp;},<br/>
+	&nbsp;&nbsp;age: 25,<br/>
+	&nbsp;&nbsp;company: 'Qihoo 360',<br/>
+	&nbsp;&nbsp;address: 'Chaoyang, Beijing'<br/>
+	})`
 	</script>
-	
 </body>
 </html>
