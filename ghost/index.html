@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .ghost_img {
+      width: 0px;
+      height: 0px;
+      transition: all 0.1s ease-in;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    body {
+      background: #000
+    }
+  </style>
+</head>
+
+<body>
+  <img src="./ghost.jpg" class="ghost_img" id="ghost">
+  <audio src="./sound.wav" id="sound"></audio>
+  <script>
+    var img = document.getElementById('ghost')
+    var sound = document.getElementById('sound')
+    var os = function () {
+      var ua = navigator.userAgent,
+        isWindowsPhone = /(?:Windows Phone)/.test(ua),
+        isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+        isAndroid = /(?:Android)/.test(ua),
+        isFireFox = /(?:Firefox)/.test(ua),
+        isChrome = /(?:Chrome|CriOS)/.test(ua),
+        isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+        isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+        isPc = !isPhone && !isAndroid && !isSymbian;
+      return {
+        isTablet: isTablet,
+        isPhone: isPhone,
+        isAndroid: isAndroid,
+        isPc: isPc
+      };
+    }();
+
+    if (os.isAndroid || os.isPhone || os.isTablet) {
+      document.addEventListener('touchstart', function () {
+        img.style.width = '100%'
+        img.style.height = '100%'
+        sound.play();
+      })
+    } else if (os.isPc) {
+      img.addEventListener('load', function () {
+        img.style.width = '100%'
+        img.style.height = '100%'
+        sound.play();
+      })
+    }
+  </script>
+</body>
+
+</html>
