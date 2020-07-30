@@ -156,6 +156,11 @@
         time: [dayjs().startOf('week').add(5, 'day').add(18, 'hour').valueOf(), dayjs().endOf('week').add(1, 'day').add(9, 'hour').valueOf()],
         text: '双休日'
       })
+      // 指定时间
+      tasks.push({
+        time: [dayjs('2020-7-31').startOf('day').add(18, 'hour').valueOf(), dayjs().endOf('year').valueOf()],
+        text: '小葛跑路'
+      })
     }
 
     function startTaskTimer() {
