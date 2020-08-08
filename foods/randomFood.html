@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <title>随机点菜器</title>
+  <style>
+    body,
+    html {
+      margin: 0px;
+      padding: 0px;
+      overflow: hidden;
+    }
+
+    .wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #3498db;
+      overflow: hidden;
+    }
+
+    .button {
+      cursor: pointer;
+      background: #1abc9c;
+      text-align: center;
+      line-height: 42px;
+      font-size: 40px;
+      padding: 8px 16px;
+      display: inline-block;
+      border-radius: 6px;
+      color: #ecf0f1;
+      margin: auto;
+      box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .content {
+      color: #fff;
+      font-size: 34px;
+      height: 60vh;
+      text-align: center;
+    }
+
+    .title {
+      color: #fff;
+      font-size: 40px;
+      height: 20vh;
+      text-align: center;
+    }
+
+    .silder {
+      width: 70vw;
+      height: 100vh;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      top: 0;
+      left: 0;
+      margin-left: -80vw;
+      background-color: #16a085;
+      box-shadow: 2px 2px 7px 5px rgba(0, 0, 0, 0.1);
+      transition: all .2s;
+      padding-right: 20px;
+      margin-right: 20px;
+    }
+
+    ul,
+    li {
+      list-style: none;
+      margin: 0px;
+    }
+
+    ul {
+      width: 100%;
+      overflow-y: auto;
+      padding-top: 20px;
+      padding-bottom: 40px;
+    }
+
+    li {
+      color: #fff;
+      font-size: 20px;
+      margin: 10px 0px;
+      padding-right: 10px;
+      word-break: break-all;
+    }
+
+    .select {
+      color: #f1c40f;
+    }
+
+    input {
+      outline: none;
+      border: 1px solid transparent;
+      height: 32px;
+      width: 200px;
+      border-radius: 40px;
+      font-size: 30px;
+      padding: 0px 10px;
+      color: #3498db;
+      background: #ffffff;
+    }
+
+    input[type=text]:focus {
+      outline: none;
+    }
+
+    .menu {
+      cursor: pointer;
+      position: absolute;
+      top: 14px;
+      left: 20px;
+      width: 30px;
+      height: 30px;
+      border-top: 3px solid #fff;
+    }
+
+    .menu::before,
+    .menu::after {
+      content: '';
+      top: 10px;
+      position: absolute;
+      height: 3px;
+      width: 30px;
+      background-color: #fff;
+    }
+
+    .menu::after {
+      top: 24px;
+    }
+
+    ::-webkit-scrollbar {
+      /*滚动条整体样式*/
+      width: 10px;
+      /*高宽分别对应横竖滚动条的尺寸*/
+      height: 1px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      /*滚动条里面小方块*/
+      border-radius: 10px;
+      background-color: skyblue;
+      background-image: -webkit-linear-gradient(45deg,
+          rgba(255, 255, 255, 0.2) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(255, 255, 255, 0.2) 50%,
+          rgba(255, 255, 255, 0.2) 75%,
+          transparent 75%,
+          transparent);
+    }
+
+    ::-webkit-scrollbar-track {
+      /*滚动条里面轨道*/
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #ededed;
+      border-radius: 10px;
+    }
+
+    .footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: auto;
+      bottom: 100px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body ontouchstart="">
+
+  <div class="wrap">
+    <div class="menu"></div>
+    <div class="title">来点菜吧</div>
+    <div class="content"></div>
+    <div class="footer">
+      <div class="button">来随机吧</div>
+    </div>
+  </div>
+  <div class="silder">
+    <input placeholder="来搜索吧" />
+    <ul class="foods">
+      <li></li>
+    </ul>
+  </div>
+  <script>
+    var foods = [
+      '肉丝炒面', '猪肝面', '豚骨拉面', '海鲜面', '西红柿打卤面', '葱油拌面', '大排面', '片儿川', '凉面', '炸酱面',
+      '螺蛳粉', '拌粉', '炒粉',
+      '黄焖鸡', '麻辣烫', '烧烤',
+      '水饺', '煎饺', '蒸饺',
+      '炸猪排', '西红柿炒鸡蛋', '青椒肉丝', '回锅肉',
+      '大盘鸡', '啤酒鸭', '盐水鸡', '烤鸭', '辣子鸡',
+      '酸菜鱼', '火锅鱼', '烤鱼'
+
+    ]
+    var content = document.querySelector('.content')
+    var button = document.querySelector('.button')
+    var list = document.querySelector('.foods')
+    var input = document.querySelector('input')
+    var menu = document.querySelector('.menu')
+    var silder = document.querySelector('.silder')
+    var isOpen = false
+    var time = 1 * 1000
+    var timer = null
+    var startTime = null
+    function initList(word) {
+      var text = ''
+      var _word = (word === undefined || word === null || word === '' ? '' : word).split(' ').join('')
+      foods.forEach(function (food) {
+        if (_word === '') {
+          text += '<li>' + food + '</li>'
+        } else {
+          var _wordSplit = _word.split('')
+          var length = _wordSplit.length
+          var newWords = []
+          var num = 0
+          _wordSplit.forEach(function (w) {
+            var index = food.indexOf(w)
+            if (index !== -1) {
+              num += 1
+              if (newWords.indexOf(index) === -1) {
+                newWords.push(index)
+              }
+            }
+          })
+          if (num >= length / 2) {
+            var _ws = food.split('')
+            newWords.forEach(function (index) {
+
+              _ws[index] = '<span class="select">' + _ws[index] + '</span>'
+            })
+            text += '<li>' + _ws.join('') + '</li>'
+          }
+        }
+      })
+      list.innerHTML = text
+    }
+    initList()
+    button.addEventListener('click', function () {
+      if (timer) {
+        return;
+      }
+      startTime = new Date().getTime()
+      timer = setInterval(function () {
+        var nowTime = new Date().getTime()
+        if ((nowTime - startTime) <= time) {
+          var rand = Math.floor(Math.random() * foods.length)
+          content.innerHTML = foods[rand]
+        } else {
+          clearInterval(timer)
+          timer = null;
+        }
+      }, 50);
+    })
+    input.addEventListener('input', function (event) {
+      initList(input.value)
+    })
+    menu.addEventListener('click', function (event) {
+      event.stopPropagation()
+      if (!isOpen) {
+        silder.style.marginLeft = '0px'
+        isOpen = true
+      } else {
+        silder.style.marginLeft = '-80vw'
+        isOpen = false
+      }
+    })
+    document.addEventListener('click', function (event) {
+      if ((!silder.contains(event.target)) && isOpen) {
+        silder.style.marginLeft = '-80vw'
+        isOpen = false
+      }
+    })
+  </script>
+</body>
+
+</html>
