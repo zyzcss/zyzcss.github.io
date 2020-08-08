@@ -169,6 +169,12 @@
       bottom: 100px;
       text-align: center;
     }
+
+    .add {
+      cursor: pointer;
+      color: #fff;
+      font-size: 32px;
+    }
   </style>
 </head>
 
@@ -185,9 +191,9 @@
   <div class="silder">
     <input placeholder="来搜索吧" />
     <ul class="foods">
-      <li></li>
     </ul>
   </div>
+
   <script>
     var foods = [
       '肉丝炒面', '猪肝面', '豚骨拉面', '海鲜面', '西红柿打卤面', '葱油拌面', '大排面', '片儿川', '凉面', '炸酱面',
@@ -197,7 +203,6 @@
       '炸猪排', '西红柿炒鸡蛋', '青椒肉丝', '回锅肉',
       '大盘鸡', '啤酒鸭', '盐水鸡', '烤鸭', '辣子鸡',
       '酸菜鱼', '火锅鱼', '烤鱼'
-
     ]
     var content = document.querySelector('.content')
     var button = document.querySelector('.button')
@@ -239,8 +244,12 @@
           }
         }
       })
+      if (text === '') {
+        text = '<div class="add" onclick="add()">满汉全席都没有它！<br />点击添加进菜谱</div>'
+      }
       list.innerHTML = text
     }
+    initFoods()
     initList()
     button.addEventListener('click', function () {
       if (timer) {
@@ -277,6 +286,26 @@
         isOpen = false
       }
     })
+    function add() {
+      var val = input.value
+      var _list = localStorage.getItem('list')
+      if (_list) {
+        _list = JSON.parse(_list)
+      } else {
+        _list = []
+      }
+      _list.push(val)
+      localStorage.setItem('list', JSON.stringify(_list))
+      input.value = ''
+      initFoods()
+      initList()
+    }
+    function initFoods() {
+      var _list = localStorage.getItem('list')
+      if (_list) {
+        foods = foods.concat(JSON.parse(_list))
+      }
+    }
   </script>
 </body>
 
