@@ -173,7 +173,7 @@
     .add {
       cursor: pointer;
       color: #fff;
-      font-size: 32px;
+      font-size: 30px;
     }
   </style>
 </head>
@@ -246,6 +246,9 @@
       })
       if (text === '') {
         text = '<div class="add" onclick="add()">满汉全席都没有它！<br />点击添加进菜谱</div>'
+      } else if(foods.indexOf(_word) === -1 && _word !== ''){
+        console.log(text)
+        text += '<div class="add" onclick="add()">这都不满足？点击添加进菜谱</div>'
       }
       list.innerHTML = text
     }
