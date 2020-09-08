@@ -38,23 +38,97 @@
       padding: 0px 12px;
     }
 
+    .input {
+      border: none;
+      width: 80px;
+      font-size: 22px;
+      background-color: hsla(230, 40%, 50%, 1);
+      color: white;
+      outline: none;
+      margin-top: 4px;
+    }
+
+    .setting {
+      font-size: 22px;
+      color: white;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
+  <div class="setting">
+    <div>上班时间：</div>
+    <input id="startTime" type="text" class="input form-control js-time-picker" value="09:00">
+    <div>下班时间：</div>
+    <input id="endTime" type="text" class="input form-control js-time-picker" value="18:00">
+  </div>
   <div id="wrap"></div>
   <div style="margin: 30px"></div>
   <div id="custom"></div>
   <script src="https://unpkg.com/dayjs"></script>
   <script src="./holiday.js"></script>
+  <link href="./picker.min.css" rel="stylesheet">
+  <script src="./picker.min.js"></script>
   <script>
     const wrap = document.getElementById('wrap')
+    const startTime = document.getElementById('startTime')
+    const endTime = document.getElementById('endTime')
     const custom = document.getElementById('custom')
+    const timeStr = localStorage.getItem('time')
+    let time = timeStr ? JSON.parse(timeStr) : { startTime: '09:00', endTime: '18:00' }
+    startTime.value = time.startTime
+    endTime.value = time.endTime
     let tasks = []
     const s = 1000
     const m = s * 60
     const h = m * 60
     const d = h * 24
+
+    const i18 = {
+      hour: '小时',
+      minute: '分钟',
+      cancel: '取消',
+      confirm: '成功',
+    }
+    const startPicker = new Picker(startTime, {
+      format: 'HH:mm',
+      headers: true,
+      date: time.startTime,
+      text: {
+        ...i18,
+        title: '选择上班时间',
+      },
+      pick: function () {
+        saveLocalDate(dayjs(startPicker.getDate()).format('HH:mm'), time.endTime)
+      }
+    });
+    const endPicker = new Picker(endTime, {
+      format: 'HH:mm',
+      headers: true,
+      date: time.endTime,
+      text: {
+        ...i18,
+        title: '选择下班时间',
+      },
+      pick: function () {
+        saveLocalDate(time.startTime, dayjs(endPicker.getDate()).format('HH:mm'))
+      }
+    });
+
+    function saveLocalDate(sTime, eTime) {
+      const t = {
+        startTime: sTime, endTime: eTime
+      }
+      localStorage.setItem('time', JSON.stringify(t))
+      time = t
+      initTasks()
+    }
+
     function init() {
       const holiday = window.holiday || []
       const today = dayjs().startOf('day')
@@ -146,16 +220,24 @@
 
     function initTasks() {
       tasks = []
+      const { startTime, endTime } = time
+      
       // 1 下班 18:00 - 9:00
       tasks.push({
-        time: [dayjs().startOf('day').add(18, 'hour').valueOf(), dayjs().startOf('day').add(1, 'day').add(9, 'hour').valueOf()],
+        time: [dayjs().startOf('day').add(getHourByStr(endTime), 'hour').valueOf(), dayjs().startOf('day').add(1, 'day').add(getHourByStr(startTime), 'hour').valueOf()],
         text: '下班'
       })
       // 1 双休日 周五 18:00 - 周日00:00:00
       tasks.push({
-        time: [dayjs().startOf('week').add(5, 'day').add(18, 'hour').valueOf(), dayjs().endOf('week').add(1, 'day').add(9, 'hour').valueOf()],
+        time: [dayjs().startOf('week').add(5, 'day').add(getHourByStr(endTime), 'hour').valueOf(), dayjs().endOf('week').add(1, 'day').add(getHourByStr(startTime), 'hour').valueOf()],
         text: '双休日'
       })
+    }
+
+    function getHourByStr(str){
+      const [h, m] = str.split(':')
+      const min = Number(m)/60
+      return Number(h) + min
     }
 
     function startTaskTimer() {
