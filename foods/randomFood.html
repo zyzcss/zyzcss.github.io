@@ -257,7 +257,7 @@
         var nowTime = new Date().getTime()
         if ((nowTime - startTime) <= time) {
           var rand = Math.floor(Math.random() * foods.length)
-          content.innerHTML = foods[rand]
+          content.innerHTML = rand >= foods.length ? '你的菜单空空如也' : foods[rand]
         } else {
           clearInterval(timer)
           timer = null;
