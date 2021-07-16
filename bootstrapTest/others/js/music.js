@@ -6,6 +6,9 @@ let progress = $(".player-time>.player-progress");
 let progressNow = progress.find(".player-progress-now");
 let progressWidth = parseInt(progress.css("width"));
 var music = [{
+    name: 'ac说爱你.mp3',
+    cover: './cover.jpg'
+}, {
     name: '拜无忧.mp3',
     cover: './cover.jpg'
 }, {
@@ -49,9 +52,6 @@ var music = [{
     cover: './cover.jpg'
 }, {
     name: '月亮船.mp3',
-    cover: './cover.jpg'
-}, {
-    name: 'ac说爱你.mp3',
     cover: './cover.jpg'
 }, {
     name: 'ACAC组曲.mp3',
