@@ -7,61 +7,61 @@ let progressNow = progress.find(".player-progress-now");
 let progressWidth = parseInt(progress.css("width"));
 var music = [{
     name: '拜无忧.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '彩虹猫.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '处处吻.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '登峰览古.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '夺命桃花.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '呐呐呐.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '牵丝戏.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '世界第一笨蛋.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '天生傲骨.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '万圣祭.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '为A而战.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '小酩酊.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '哑巴.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '异界契约.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: '月亮船.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: 'ac说爱你.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: 'ACAC组曲.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: 'Despacito.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }, {
     name: 'Vtuber VS Vup - Rap Battle.mp3',
-    cover: 'https://www.baidu.com/img/flexible/logo/pc/result.png'
+    cover: './cover.jpg'
 }]
 let IsPC = function () {
     let userAgentInfo = navigator.userAgent;
@@ -100,7 +100,7 @@ let corverImg = $('.player-corver>img');
 let pause = control.find(".player-controls-pause");
 let isRun = false;
 let nowSong = 0;
-let songsList = [];
+let songsList = music;
 soundManager.setup({
     onready: function () {
         player = soundManager.createSound({
@@ -187,11 +187,11 @@ if (!IsPC) {
             if (wid > Math.floor(player.bytesLoaded * 100) / 100) {
                 alert("选择的进度在加载");
             } else {
-                let time = Math.floor(wid * playTime);
-                player.setPosition(Math.floor(e.offsetX / progressWidth * playTime));
+                player.setPosition(Math.floor(e.offsetX / progressWidth * player.duration));
                 setTimeText();
             }
         }
+
     });
     pause.on("click", function () {
         onlyPlayOne = function () { };
@@ -300,9 +300,8 @@ let songCorver = $(".player-corver>img");
 function getSongList() {
     loadSongList(music);
     createLi(music);
-    searchLoad.addClass("list-load-none");
     localStorage.setItem('songsList', JSON.stringify(songsList));
-
+    corverImg.attr('src', songsList[nowSong].cover)
 }
 
 /* 设置歌曲信息 */
@@ -316,15 +315,12 @@ function setSong(num) {
 }
 
 /* 更改歌曲信息 */
-let playTime = 0;
 function changeInfo(playerSong) {
     console.log("切歌", playerSong);
-    songCorver.attr("src", playerSong.album.picUrl + "?param=200y200");
-    songInfo[0].innerText = playerSong.name;
-    songInfo[2].innerText = playerSong.album.name;
-    playTime = parseInt(playerSong.lMusic.playTime);
-    time.text(getTime(playTime / 1000));
-    songInfo[1].innerText = playerSong.name
+    var name = playerSong.name.slice(0, playerSong.name.length - 4)
+    songInfo[0].innerText = name;
+    songInfo[1].innerText = '绛紫长酱紫的绛紫'
+    console.log('https://zyzcss.github.io/music/' + playerSong.name);
     player.load({ url: 'https://zyzcss.github.io/music/' + playerSong.name });
 }
 
@@ -333,9 +329,8 @@ function changeInfo(playerSong) {
 let nexx = nextOne;
 let setTimeText = function () {
     nowTime.text(getTime(Math.floor(player.position / 1000)));
-    progressNow.css("width", (parseInt(player.position) / playTime * 100).toFixed(0) + "%");
-
-    if (player.position + 1500 > playTime) {
+    progressNow.css("width", (parseInt(player.position) / player.duration * 100).toFixed(0) + "%");
+    if (player.position > player.position) {
         nexx();
         player.setPosition(0);
     }
@@ -382,22 +377,13 @@ let ul = $("#player-list>.player-list-songsList");
 let playerToggle = $(".player-toggle");
 let search = $('#player-search');
 (function () {
-    playerToggle.find(".player-list-icon").on("click", function (e) {
+    playerToggle.on("click", function (e) {
         $('#player-list').css("left", 0);
-        e.stopPropagation();
-    });
-    playerToggle.find(".player-search-icon").on("click", function (e) {
-        search.toggleClass("card-rotate");
-        $('#player').toggleClass("card-rotate");
         e.stopPropagation();
     });
     $("#player-list>.player-list-title>.player-icon-back").on("click", function (e) {
         $('#player-list').css("left", "100%");
         e.stopPropagation();
-    });
-    search.find(".player-icon-back").on("click", function () {
-        search.toggleClass("card-rotate");
-        $('#player').toggleClass("card-rotate");
     });
 })();
 ul.on("click", function (e) {
@@ -406,7 +392,7 @@ ul.on("click", function (e) {
     if (info.attr("songid")) {
         let songid = info.attr("songid");
         for (let i in songsList) {
-            if (songsList[i].id == songid) {
+            if (songsList[i].name == songid) {
                 player = soundManager.createSound({
                     id: 'player',
                     autoLoad: true,
@@ -462,16 +448,15 @@ function getTime(s) {
 /* 初始化播放列表 */
 function createLi(songsList) {
     let str = "";
-    let id; let name; let singerName; let playTime;
+    let id; let name; let singerName;
     songsList.forEach(function (song) {
-        id = song.id,
-            name = song.name,
-            singerName = song.name.slice(1, song.name.length - 4),
-            playTime = getTime(song.lMusic.playTime / 1000);
+        id = song.name,
+            name =  song.name.slice(0, song.name.length - 4),
+            singerName = '绛紫长酱紫的绛紫'
+            // <div removeMe="true" class="player-list-remove"></div>
         str += `<li songId="${id}"><div class="player-list-song" songId="${id}"><span title="${name}">${name}</span></div>
         <div class="player-list-singer"><span title="${singerName}">${singerName}</span></div>
-        <div class="player-list-playtime" songId="${id}" ><span title="${playTime}">${playTime}</span>
-        </div><div removeMe="true" class="player-list-remove"></div></li>`;
+        </div></li>`;
     });
     ul.append(str);
 }
