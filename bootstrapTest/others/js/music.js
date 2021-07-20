@@ -242,18 +242,14 @@ if (!IsPC) {
     /* 上一首下一首 */
     control.find(".player-controls-pre").on("click", function () {
         if (--nowSong < 0) {
-            alert("没有上一首了");
-            nowSong++;
-            return;
+            nowSong = songsList.length - 1;
         }
         preOrnext();
     });
     control.find(".player-controls-next").on("click", function () {
         console.log("结束了")
         if (++nowSong > songsList.length - 1) {
-            alert("没有下一首了");
-            nowSong--;
-            return;
+            nowSong = 0;
         }
         preOrnext();
     });
@@ -313,7 +309,6 @@ let songCorver = $(".player-corver>img");
 function getSongList() {
     loadSongList(music);
     createLi(music);
-    localStorage.setItem('songsList', JSON.stringify(songsList));
     corverImg.attr('src', songsList[nowSong].cover)
 }
 
@@ -342,8 +337,9 @@ function changeInfo(playerSong) {
 let nexx = nextOne;
 let setTimeText = function () {
     nowTime.text(getTime(Math.floor(player.position / 1000)));
+    time.text(getTime(Math.floor(player.duration / 1000)))
     progressNow.css("width", (parseInt(player.position) / player.duration * 100).toFixed(0) + "%");
-    if (player.position > player.position) {
+    if (player.position > player.duration) {
         nexx();
         player.setPosition(0);
     }
@@ -359,6 +355,9 @@ function nextOne() {
     isRun = false;
     nowSong++;
     setTimeText();
+    if (nowSong == songsList.length) {
+        nowSong = 0
+    }
     setSong(nowSong);
     setTimeout(function () {
         nexx = nextOne;
