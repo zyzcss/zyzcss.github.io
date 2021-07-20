@@ -165,16 +165,11 @@ if (!IsPC) {
         }, 1000);
         if (i) {
             if (--nowSong < 0) {
-                alert("没有上一首了");
-                nowSong++;
-                return;
+                nowSong = songsList.length - 1
             }
         } else {
-            console.log("结束了")
             if (++nowSong > songsList.length - 1) {
-                alert("没有下一首了");
-                nowSong--;
-                return;
+                nowSong = 0
             }
         }
         player.pause();
