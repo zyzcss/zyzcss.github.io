@@ -5,10 +5,9 @@ let nowTime = $(".player-time>.player-start");
 let progress = $(".player-time>.player-progress");
 let progressNow = progress.find(".player-progress-now");
 let progressWidth = parseInt(progress.css("width"));
-var music = [{
-    name: 'ac说爱你.mp3',
-    cover: './cover.jpg'
-}, {
+/**
+ * 
+, {
     name: '拜无忧.mp3',
     cover: './cover.jpg'
 }, {
@@ -21,16 +20,7 @@ var music = [{
     name: '登峰览古.mp3',
     cover: './cover.jpg'
 }, {
-    name: '夺命桃花.mp3',
-    cover: './cover.jpg'
-}, {
-    name: '呐呐呐.mp3',
-    cover: './cover.jpg'
-}, {
     name: '牵丝戏.mp3',
-    cover: './cover.jpg'
-}, {
-    name: '世界第一笨蛋.mp3',
     cover: './cover.jpg'
 }, {
     name: '天生傲骨.mp3',
@@ -51,6 +41,32 @@ var music = [{
     name: '异界契约.mp3',
     cover: './cover.jpg'
 }, {
+    name: 'Despacito.mp3',
+    cover: './cover.jpg'
+}, {
+    name: 'Vtuber VS Vup - Rap Battle.mp3',
+    cover: './cover.jpg'
+}, {
+    name: '呐呐呐.mp3',
+    cover: './cover.jpg'
+}
+ */
+var music = [{
+    name: 'ac说爱你.mp3',
+    cover: './cover.jpg'
+}, {
+    name: '东西.mp3',
+    cover: './cover.jpg'
+}, {
+    name: '穿越少女.mp3',
+    cover: './cover.jpg'
+}, {
+    name: '夺命桃花.mp3',
+    cover: './cover.jpg'
+}, {
+    name: '世界第一笨蛋.mp3',
+    cover: './cover.jpg'
+}, {
     name: '月亮船.mp3',
     cover: './cover.jpg'
 }, {
@@ -58,9 +74,6 @@ var music = [{
     cover: './cover.jpg'
 }, {
     name: 'Despacito.mp3',
-    cover: './cover.jpg'
-}, {
-    name: 'Vtuber VS Vup - Rap Battle.mp3',
     cover: './cover.jpg'
 }]
 let IsPC = function () {
