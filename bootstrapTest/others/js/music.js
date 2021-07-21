@@ -66,9 +66,6 @@ var music = [{
     name: '异界契约.mp3',
     cover: './cover.jpg'
 }, {
-    name: 'Despacito.mp3',
-    cover: './cover.jpg'
-}, {
     name: 'Vtuber VS Vup - Rap Battle.mp3',
     cover: './cover.jpg'
 }, {
@@ -128,6 +125,7 @@ soundManager.setup({
     }
 });
 
+let choose = preOrnext;
 if (!IsPC) {
     progress.on("touchstart", function (e) {
     });
@@ -146,7 +144,6 @@ if (!IsPC) {
         }
         isStop = !isStop;
     });
-    let choose = preOrnext;
 
     /* 上一首下一首 */
     control.find(".player-controls-pre").on("click", function () {
@@ -155,35 +152,7 @@ if (!IsPC) {
     control.find(".player-controls-next").on("click", function () {
         choose(0)
     });
-    function preOrnext(i) {
-        choose = function () {
-            alert("请勿频繁点击");
-        };
-        setTimeout(function () {
-            choose = preOrnext;
-        }, 1000);
-        if (i) {
-            if (--nowSong < 0) {
-                nowSong = songsList.length - 1
-            }
-        } else {
-            if (++nowSong > songsList.length - 1) {
-                nowSong = 0
-            }
-        }
-        player.pause();
-        player = null;
-        player = soundManager.createSound({
-            id: 'player',
-            autoLoad: true,
-            autoPlay: false,
-            url: 'https://zyzcss.github.io/music/' + songsList[nowSong].name
-        });
-        isStop = true;
-        setTimeText();
-        setSong(nowSong);
-        pause.click();
-    }
+ 
 } else {
     console.log("pc")
     progress.on("click", function (e) {
@@ -261,6 +230,37 @@ if (!IsPC) {
     }
 }
 
+function preOrnext(i) {
+    choose = function () {
+        alert("请勿频繁点击");
+    };
+    setTimeout(function () {
+        choose = preOrnext;
+    }, 1000);
+    if (i) {
+        if (--nowSong < 0) {
+            nowSong = songsList.length - 1
+        }
+    } else {
+        if (++nowSong > songsList.length - 1) {
+            nowSong = 0
+        }
+    }
+    player.pause();
+    player = null;
+    player = soundManager.createSound({
+        id: 'player',
+        autoLoad: true,
+        autoPlay: false,
+        url: 'https://zyzcss.github.io/music/' + songsList[nowSong].name
+    });
+    isStop = true;
+    setTimeText();
+    setSong(nowSong);
+    pause.click();
+    player.play()
+}
+
 /* 声音事件 */
 let icon = control.find('.player-sound-icon');
 control.find(".player-controls-sound").on("click", function (e) {
@@ -334,8 +334,12 @@ let setTimeText = function () {
     time.text(getTime(Math.floor(player.duration / 1000)))
     progressNow.css("width", (parseInt(player.position) / player.duration * 100).toFixed(0) + "%");
     if (player.position > player.duration) {
-        nexx();
-        player.setPosition(0);
+        if (!IsPC) {
+            choose(0)
+        } else {
+            nexx();
+            player.setPosition(0);
+        }
     }
 }
 
