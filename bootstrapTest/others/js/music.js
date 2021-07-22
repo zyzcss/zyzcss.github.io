@@ -5,6 +5,12 @@ let nowTime = $(".player-time>.player-start");
 let progress = $(".player-time>.player-progress");
 let progressNow = progress.find(".player-progress-now");
 let progressWidth = parseInt(progress.css("width"));
+var option = {}
+var options = location.search.slice(1).split('&')
+options.forEach(function(o) {
+    var keys = o.split('=')
+    option[keys[0]] = keys[1]
+})
 /**
  * 
  */
@@ -108,7 +114,7 @@ let timer = null;
 let corverImg = $('.player-corver>img');
 let pause = control.find(".player-controls-pause");
 let isRun = false;
-let nowSong = 0;
+let nowSong = option.song ? (Math.max(Math.min(option.song, music.length - 1), 0)) : 0;
 let songsList = music;
 soundManager.setup({
     onready: function () {
