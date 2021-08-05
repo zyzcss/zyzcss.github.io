@@ -21,6 +21,10 @@ var music = [{
     name: '东西.mp3',
     cover: './cover.jpg'
 }, {
+    name: '狂徒.mp3',
+    cover: './cover.jpg',
+    singer:  '司霁&绛紫长酱紫的绛紫'
+}, {
     name: '穿越少女.mp3',
     cover: './cover.jpg'
 }, {
@@ -468,7 +472,7 @@ function createLi(songsList) {
     songsList.forEach(function (song) {
         id = song.name,
             name =  song.name.slice(0, song.name.length - 4),
-            singerName = '绛紫长酱紫的绛紫'
+            singerName = song.singer || '绛紫长酱紫的绛紫'
             // <div removeMe="true" class="player-list-remove"></div>
         str += `<li songId="${id}"><div class="player-list-song" songId="${id}"><span title="${name}">${name}</span></div>
         <div class="player-list-singer"><span title="${singerName}">${singerName}</span></div>
