@@ -331,7 +331,7 @@ function changeInfo(playerSong) {
     console.log("切歌", playerSong);
     var name = playerSong.name.slice(0, playerSong.name.length - 4)
     songInfo[0].innerText = name;
-    songInfo[1].innerText = '绛紫长酱紫的绛紫'
+    songInfo[1].innerText = playerSong.singer || '绛紫长酱紫的绛紫'
     console.log('https://zyzcss.github.io/music/' + playerSong.name);
     player.load({ url: 'https://zyzcss.github.io/music/' + playerSong.name });
 }
