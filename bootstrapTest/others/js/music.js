@@ -440,7 +440,7 @@ function corverRun() {
         if (corverDeg == 360) {
             corverDeg = 0;
         }
-        corverImg.css("transform", "rotate(" + (corverDeg++) + "deg)");
+        corverImg.css("transform", "rotate(" + (corverDeg+=0.2) + "deg)");
         runtime = corverAnimate;
     }
     corverAnimate = requestAnimationFrame(corverRun);
