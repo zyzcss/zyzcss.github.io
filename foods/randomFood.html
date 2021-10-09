@@ -300,7 +300,7 @@
     function initFoods() {
       var _list = localStorage.getItem('list')
       if (_list) {
-        foods = foods.concat(JSON.parse(_list))
+        foods = JSON.parse(_list)
       }
     }
   </script>
