@@ -211,9 +211,9 @@
     function initList(word) {
       var text = ''
       var _word = (word === undefined || word === null || word === '' ? '' : word).split(' ').join('')
-      foods.forEach(function (food) {
+      foods.forEach(function (food, index) {
         if (_word === '') {
-          text += '<li>' + food + '</li>'
+          text += '<li>' + food + '<a  class="btn" style="float:right;cursor:pointer" index="' + index +'">删除</a></li>'
         } else {
           var _wordSplit = _word.split('')
           var length = _wordSplit.length
@@ -234,17 +234,33 @@
 
               _ws[index] = '<span class="select">' + _ws[index] + '</span>'
             })
-            text += '<li>' + _ws.join('') + '</li>'
+            text += '<li>' + _ws.join('') +  '<a class="btn" style="float:right;cursor:pointer" index="' + index +'">删除</a></li>'
           }
         }
       })
       if (text === '') {
-        text = '<div class="add" onclick="add()">满汉全席都没有它！<br />点击添加进菜谱</div>'
+        text = '<div class="add" onclick="add(event)">满汉全席都没有它！<br />点击添加进菜谱</div>'
       } else if(foods.indexOf(_word) === -1 && _word !== ''){
         console.log(text)
-        text += '<div class="add" onclick="add()">这都不满足？点击添加进菜谱</div>'
+        text += '<div class="add" onclick="add(event)">这都不满足？点击添加进菜谱</div>'
       }
       list.innerHTML = text
+      document.querySelectorAll('.btn').forEach(function(dom) {
+        dom.addEventListener('click', function(event) {    
+          var index = event.currentTarget.getAttribute('index')
+          console.log(event, index)
+          var _list = localStorage.getItem('list')
+          if (_list) {
+            _list = JSON.parse(_list)
+          } else {
+            _list = []
+          }
+          _list.splice(index, 1)
+          localStorage.setItem('list', JSON.stringify(_list))
+          initFoods()
+          initList()
+      })
+      })
     }
     initFoods()
     initList()
@@ -278,12 +294,13 @@
       }
     })
     document.addEventListener('click', function (event) {
-      if ((!silder.contains(event.target)) && isOpen) {
+      if ((!silder.contains(event.target)) && isOpen && event.target.classList != 'btn') {
         silder.style.marginLeft = '-80vw'
         isOpen = false
       }
     })
-    function add() {
+    function add(event) {
+       event.stopPropagation()
       var val = input.value
       var _list = localStorage.getItem('list')
       if (_list) {
