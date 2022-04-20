@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成语接龙小工具</title>
+    <script src="./words.js"></script>
+    <script src="./words_map.js"></script>
+    <style>
+        body,
+        html {
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            margin: 0px;
+            padding: 0px;
+            background-color: #090821;
+        }
+
+        .input-wrap {
+            position: relative;
+            padding-top: 40px;
+        }
+
+        .word-input {
+            height: 30px;
+            line-height: 30px;
+            width: 100%;
+            color: white;
+            font-size: inherit;
+            font-family: inherit;
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-bottom-color: hsla(185, 100%, 62%, 0.2);
+        }
+
+        .word-input:focus {
+            outline: none;
+        }
+
+        .word-input::placeholder {
+            color: hsla(0, 0%, 100%, 0.6);
+        }
+
+        .input-wrap span {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #3cefff;
+            transform-origin: bottom right;
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .input-wrap  .word-input:focus~span {
+            transform-origin: bottom left;
+            transform: scaleX(1);
+        }
+
+        .wrap {
+            height: 100%;
+            margin: auto;
+            max-width: 400px;
+            padding: 16px 10%;
+        }
+
+        #words {
+            display: flex;
+            flex-direction: column;
+            font-size: 18px;
+            color: #ffffff;
+            padding-top: 12px;
+        }
+        #words > * :not(:last-child){
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        .empty {
+            color: rgb(207, 0, 0);
+        }
+        .word {
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="input-wrap">
+            <input type="text" class="word-input" placeholder="请输入成语的首字">
+            <span></span>
+        </div>
+        <div id="words">
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        const input = document.querySelector('.word-input')
+        const wordsWrap = document.getElementById('words')
+        input.addEventListener('input', function(event) {
+            const word = event.target.value
+            console.log(word, word.length);
+            if (word.length == '0') {
+                wordsWrap.innerHTML = ''
+            } else {
+                const first = word[0]
+                if (wordsMap[first]) {
+                    const list = wordsMap[first]
+                    let str = ''
+                    for (let index = 0; index < list.length; index++) {
+                        str += `<div class="word">${index+1}: ${list[index]}</div>`
+                    }
+                    wordsWrap.innerHTML = str
+                } else {
+                    wordsWrap.innerHTML = `<div class="empty">暂时未能查找以${first}开头的成语</div>`
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
