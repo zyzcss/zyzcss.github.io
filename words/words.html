@@ -84,6 +84,9 @@
         .word {
 
         }
+        .win {
+            color: rgb(207, 0, 0);
+        }
     </style>
 </head>
 
@@ -111,7 +114,9 @@
                     const list = wordsMap[first]
                     let str = ''
                     for (let index = 0; index < list.length; index++) {
-                        str += `<div class="word">${index+1}: ${list[index]}</div>`
+                        const lastWord = list[index][3]
+                        const isWin = !wordsMap[lastWord]
+                        str += `<div class="word">${index+1}: ${list[index]}<span class="win">${isWin ? '[绝杀]' : ''}</span></div>`
                     }
                     wordsWrap.innerHTML = str
                 } else {
