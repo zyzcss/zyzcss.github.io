@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>616</title>
+    <style>
+        body {
+            /* background-color: #ffffff; */
+            background-color: hsla(230, 40%, 50%, 0.7);
+            padding: 0px;
+            padding-top: 20px;
+            margin: 0px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btns {
+            margin: 20px 0px 40px 0px;
+            text-align: right;
+            width: 400px;
+            max-width: 100vw;
+        }
+
+        .btn {
+            background-color: #fd4c5d;
+            border-radius: 4px;
+            box-shadow: 1px 1px 8px 1px rgba(253, 76, 93, 1);
+            color: #ffffff;
+            display: inline-block;
+            padding: 8px 12px;
+            max-width: 100vw;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            height: 400px;
+            width: 400px;
+            max-width: 100vw;
+            background-color: rgba(253, 76, 93, 1);
+            position: relative;
+        }
+
+        .content div {
+            width: 33.33%;
+            height: 33.33%;
+            outline: #fff solid 1px;
+            box-sizing: border-box;
+            flex: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .now {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            border: 2px solid #ffeb3b;
+        }
+
+        .historty-wrap {
+            position: fixed;
+            width: 80%;
+            height: 80%;
+            overflow: auto;
+            margin: auto;
+            left: 0px;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            background-color: #fff;
+            box-shadow: 3px 3px 8px 1px rgba(0, 0, 0, 0.4);
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .historty-list {
+            display: flex;
+            flex-direction: column;
+            font-size: 18px;
+            padding: 12px;
+        }
+
+        .historty-list div {
+            padding: 6px 8px;
+        }
+
+        .historty-list div:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+
+        .close {
+            position: absolute;
+            right: 28px;
+            top: 20px;
+        }
+
+        .close::before,
+        .close::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 0px;
+            border-top: 3px solid #333;
+            transform: rotate(45deg);
+        }
+
+        .close::after {
+            transform: rotate(135deg);
+        }
+
+        .overflow-hidden {
+            overflow: hidden;
+        }
+
+        .end-animation {
+            animation: end 0.6s infinite;
+            border-style: dotted;
+            box-sizing: border-box;
+        }
+
+        @keyframes end {
+            0% {
+                border-width: 0px;
+            }
+
+            100% {
+                border-width: 4px;
+            }
+        }
+        .outline-none {
+            outline:none !important;
+        }
+
+        .shawn {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            z-index: 2;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }   
+        .modal > div {
+            padding: 12px 20px;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.8);
+        }
+        .modal-btns {
+            text-align: center;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btns">
+        <div id="historty" class="btn">记录</div>
+    </div>
+    <div class="content">
+        <div data-item="0">香蕉礼包</div>
+        <div data-item="1">随机AC币</div>
+        <div data-item="2">AC包子头</div>
+        <div data-item="7">AC贴纸</div>
+        <div id="start">Roll!</div>
+        <div data-item="3">AC娘手办</div>
+        <div data-item="6">弹幕伞</div>
+        <div data-item="5">金香蕉礼包</div>
+        <div data-item="4">头像挂件</div>
+        <div class="now hide" data-current="0"></div>
+    </div>
+    <div class="shawn hide" />
+    <div class="historty-wrap hide">
+        <h3 style="text-align: center;">记录</h3>
+        <div class="close"></div>
+        <div class="historty-list">
+        </div>
+    </div>
+    <div class="modal hide">
+        <div>
+            <div>恭喜你冲中：<span id="result"></span></div>
+            <div class="modal-btns">
+                <div class="btn" id="check">确认</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelector('.content').style.height = document.querySelector('.content').clientWidth + 'px'
+        const historty = document.getElementById('historty')
+        const start = document.getElementById('start')
+        const close = document.querySelector('.close')
+        const body = document.body
+        const histortyWrap = document.querySelector('.historty-wrap')
+        const histortyList = document.querySelector('.historty-list')
+        const now = document.querySelector('.now')
+        const result = document.getElementById('result')
+        const check = document.getElementById('check')
+        const shawn = document.querySelector('.shawn')
+        const modal = document.querySelector('.modal')
+        const prize = [
+            // 0
+            ['香蕉*6', '香蕉*66', '香蕉*616', '香蕉*1666'],
+            // 1
+            ['AC币*6', 'AC币*66', 'AC币*616', 'AC币*1666'],
+            // 2
+            ['AC包子头'],
+            // 3
+            ['AC娘手办'],
+            // 4
+            ['头像挂件'],
+            // 5
+            ['金香蕉*6', '金香蕉*66', '金香蕉*616', '金香蕉*1666'],
+            // 6
+            ['弹幕伞'],
+            // 7
+            ['AC贴纸'],
+        ]
+        let isStart = false
+        historty.addEventListener('click', function () {
+            histortyWrap.classList.remove('hide')
+            shawn.classList.remove('hide')
+            body.classList.add('overflow-hidden')
+        })
+        close.addEventListener('click', function () {
+            histortyWrap.classList.add('hide')
+            shawn.classList.add('hide')
+            body.classList.remove('overflow-hidden')
+        })
+        document.body.onresize = function () {
+            document.querySelector('.content').style.height = document.querySelector('.content').clientWidth + 'px'
+        }
+        check.addEventListener('click', function() {
+            shawn.classList.add('hide')
+            modal.classList.add('hide')
+        })
+        function showModal(current) {
+            const target = prize[current]
+            const len = target.length
+            const random = Math.floor(Math.random() * len)
+            const resultText = target[random]
+            result.innerText = resultText
+            shawn.classList.remove('hide')
+            modal.classList.remove('hide')
+            const div = document.createElement('div')
+            div.innerText = resultText
+            histortyList.appendChild(div)
+        }
+
+        start.addEventListener('click', function () {
+            if (isStart) {
+                return
+            }
+            isStart = true
+            now.classList.remove('hide')
+            now.classList.remove('end-animation')
+            let current = Number(now.getAttribute('data-current'))
+            document.querySelector('.content [data-item="' + current + '"]').classList.remove('outline-none')
+            const doms = document.querySelector('.content [data-item]')
+            const width = doms.getBoundingClientRect().width
+            const list = [
+                [0, 0], [width, 0], [2 * width, 0],
+                [2 * width, width], [2 * width, 2 * width], [width, 2 * width], [0, 2 * width], [0, width]
+
+            ]
+            /* 
+            *  0   1   2
+            *  7       3
+            *  6   5   4
+            */
+            // 0~7
+            const next = Math.floor(Math.random() * 8) + 10 
+            // let bezier = BezierEasing(0.08, 0.02, 0, 0.99999)
+            dp(0, next, 100)
+            function dp(cur, end, time) {
+                if (cur < end) {
+                    current += 1
+                    if (current == 8) {
+                        current = 0
+                    }
+                    const curtime = Math.pow((1 + (cur + 1)/end * 2), 2)  * time
+                    const nextRect = list[current]
+                    now.style.left = nextRect[0] + 'px'
+                    now.style.top = nextRect[1] + 'px'
+                    setTimeout(() => {
+                        dp(cur + 1, end, time)
+                    }, curtime);
+                } else {
+                    now.setAttribute('data-current', current)
+                    document.querySelector('.content [data-item="' + current + '"]').classList.add('outline-none')
+                    isStart = false
+                    now.classList.add('end-animation')
+                    showModal(current)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
