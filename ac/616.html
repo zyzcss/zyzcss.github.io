@@ -99,8 +99,10 @@
 
         .close {
             position: absolute;
-            right: 28px;
-            top: 20px;
+            right: 0px;
+            top: 0px;
+            width: 50px;
+            height: 50px;
         }
 
         .close::before,
@@ -111,6 +113,12 @@
             height: 0px;
             border-top: 3px solid #333;
             transform: rotate(45deg);
+            transform-origin: center;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin: auto;
         }
 
         .close::after {
